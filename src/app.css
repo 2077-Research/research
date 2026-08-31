@@ -1,0 +1,217 @@
+/* @import '@fontsource-variable/inter'; */
+@import '@fontsource/ubuntu-mono';
+/* @import '@fontsource-variable/geist-mono'; */
+@import '@fontsource/ibm-plex-sans';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+	font-family: 'Menlo Regular';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('Menlo Regular'),
+		url('/fonts/Menlo-Regular.woff') format('woff');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Soehne';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('Sohne'),
+		url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'ABC Favorit Variable';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('ABC Favorit Variable'),
+		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
+	font-display: swap;
+} */
+
+@font-face {
+	font-family: 'Charter';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('Charter'),
+		url('/fonts/CharterRegular.ttf') format('ttf');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('OpenSans'),
+		url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('ttf');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Hubot Sans';
+	src:
+		url('/fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+		url('/fonts/Hubot-Sans.woff2') format('woff2-variations');
+	font-weight: 200 900;
+	font-stretch: -100%;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PowerGrotesk';
+	font-style: normal;
+	font-weight: 300 400 500 600 700;
+	src:
+		local('PowerGrotesk'),
+		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'KodeMono';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('KodeMono-Regular'),
+		url('/fonts/KodeMono-Regular.woff2') format('woff2');
+	font-display: swap;
+}
+
+@layer base {
+	:root {
+		--font-mono: 'Ubuntu Mono', monospace;
+		--font-power: 'PowerGrotesk';
+		--font-hubot: 'Hubot Sans', sans-serif;
+		--font-open-sans: 'OpenSans', sans-serif;
+		--font-geist-mono: 'Geist Mono Variable', monospace;
+		--font-ibm: 'IBM Plex Sans', sans-serif;
+		--font-charter: 'Charter', sans-serif;
+		--font-kode: 'KodeMono', monospace;
+
+		--background: 0 0% 4%;
+		--background-lighter: 240 4% 10%;
+		--foreground: 0 0% 98%;
+
+		--card: 222.2 84% 4.9%;
+		--card-foreground: 210 40% 98%;
+
+		--popover: 222.2 84% 4.9%;
+		--popover-foreground: 210 40% 98%;
+
+		--primary: 210 40% 98%;
+		--primary-foreground: 240 4% 5%;
+
+		--secondary: 240 2% 10%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--muted: 217.2 32.6% 17.5%;
+		--muted-foreground: 215 20.2% 65.1%;
+
+		--accent: 217.2 32.6% 17.5%;
+		--accent-foreground: 210 40% 98%;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 212 9% 73%;
+		--input: 217.2 32.6% 17.5%;
+		--ring: 212.7 26.8% 83.9%;
+
+		--radius: 0.5rem;
+		--subtle: 210 3% 31%;
+
+		--neutral-05: #f2f2f2;
+		--neutral-10: #e6e6e6;
+		--neutral-20: #ccc;
+		--neutral-40: #999999;
+		--neutral-60: #666666;
+		--neutral-80: #333333;
+	}
+
+	* {
+		border-color: hsl(var(--border));
+	}
+
+	body {
+		@apply tracking-normal font-hubot;
+		background-color: hsl(var(--background));
+		color: hsl(var(--foreground));
+		font-weight: 300;
+	}
+
+	button {
+		@apply !font-ibm;
+	}
+
+	p {
+		@apply tracking-normal;
+	}
+
+	pre,
+	code {
+		font-family: var(--font-mono) !important;
+	}
+
+	button,
+	a {
+		@apply tracking-wide;
+	}
+
+	figcaption {
+		font-family: var(--font-kode);
+		color: var(--neutral-40);
+		line-height: 0.5;
+	}
+
+	.hero {
+		background: url('/hero.webp');
+		background-repeat: no-repeat;
+		background-position: center;
+		@apply pt-16 md:pt-20 pb-20 md:pb-40;
+
+		.hero-mask {
+			background: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
+		}
+	}
+
+	.font-powerGroteskBold {
+		font-weight: 700 !important;
+	}
+
+	/* .default-theme {
+		background-color: #19191a;
+		color: white;
+	}
+
+	.white-theme {
+		background-color: white;
+		color: #010102;
+	}
+
+	.grey-theme {
+		background-color: #2b3031;
+		color: white;
+	}
+
+	.blue-theme {
+		background-color: #1c2a3b;
+		color: white;
+	}
+
+	.off-white-theme {
+		background-color: #fef5eb;
+		color: #171717;
+	} */
+}
