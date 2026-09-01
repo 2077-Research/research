@@ -1,12 +1,14 @@
-import { PUBLIC_GHOST_KEY, PUBLIC_GHOST_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import GhostContentAPI from '@tryghost/content-api';
 
-if (!PUBLIC_GHOST_URL || !PUBLIC_GHOST_KEY) {
-	throw new Error('Missing required environment variables');
-}
+const ghostUrl = env.PUBLIC_GHOST_URL;
+const ghostKey = env.PUBLIC_GHOST_KEY;
 
-export const ghostAPI = new GhostContentAPI({
-	url: PUBLIC_GHOST_URL,
-	key: PUBLIC_GHOST_KEY,
-	version: 'v5.0'
-});
+export const ghostAPI =
+	ghostUrl && ghostKey
+		? new GhostContentAPI({
+				url: ghostUrl,
+				key: ghostKey,
+				version: 'v5.0'
+			})
+		: null;

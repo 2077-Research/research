@@ -1,10 +1,6 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { z } from 'zod';
-
-const OPENAI_CLIENT = new OpenAI({
-	apiKey: OPENAI_API_KEY
-});
 
 const reviewSchema = z.object({
 	review: z.array(
@@ -65,10 +61,14 @@ export function getEditorSuggestions(article: string): Promise<Review> {
 	    `
 	)(article);
 }
-
 export function runAgent(agentPrompt: string) {
 	return async (userPrompt: string): Promise<Review> => {
-		const response = await OPENAI_CLIENT.chat.completions.create({
+		if (!env.OPENAI_API_KEY) {
+			throw new Error('Article review is temporarily unavailable');
+		}
+
+		const openaiClient = new OpenAI({ apiKey: env.OPENAI_API_KEY });
+		const response = await openaiClient.chat.completions.create({
 			messages: [
 				{
 					role: 'system',

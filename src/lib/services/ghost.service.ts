@@ -8,6 +8,10 @@ export const fetchGhostArticles = async (
 	limit = 15,
 	bookmarks?: string[]
 ) => {
+	if (!ghostAPI) {
+		return [];
+	}
+
 	const cacheKey = `${category || 'all'}-${page || 1}-${limit}`;
 
 	if (cache.has(cacheKey)) {
@@ -44,6 +48,10 @@ export const fetchGhostArticles = async (
 };
 
 async function fetchPostByTag(tagSlug: string) {
+	if (!ghostAPI) {
+		return null;
+	}
+
 	const posts = await ghostAPI.posts.browse({
 		filter: `tag:${tagSlug.toLowerCase().split(' ').join('-')}`,
 		limit: 1,

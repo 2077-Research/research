@@ -1,5 +1,7 @@
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { createClient } from '@supabase/supabase-js';
+const supabaseUrl = env.PUBLIC_SUPABASE_URL || 'https://unavailable.supabase.co';
+const supabaseAnonKey = env.PUBLIC_SUPABASE_ANON_KEY || 'unavailable';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -21,4 +23,4 @@ const options = {
 	}
 };
 
-export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, options);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, options);

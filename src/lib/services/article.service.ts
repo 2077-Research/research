@@ -7,6 +7,10 @@ export const getGhostArticleBySlug = async (slug: string) => {
 		return null;
 	}
 
+	if (!ghostAPI) {
+		return null;
+	}
+
 	const cacheKey = slug;
 
 	if (cache.has(cacheKey)) {

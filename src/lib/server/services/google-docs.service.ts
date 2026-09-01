@@ -1,12 +1,15 @@
 import { google } from 'googleapis';
-import { GOOGLE_SERVICE_ACCOUNT_BASE_64 } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 const SCOPES = ['https://www.googleapis.com/auth/documents.readonly'];
 
 // Function to authenticate and fetch a Google Doc as markdown
 export async function fetchGoogleDocAsMarkdown(documentLink: string) {
-	const decodedServiceAccount = Buffer.from(GOOGLE_SERVICE_ACCOUNT_BASE_64, 'base64').toString(
-		'utf-8'
-	);
+	const encodedServiceAccount = env.GOOGLE_SERVICE_ACCOUNT_BASE_64;
+	if (!encodedServiceAccount) {
+		throw new Error('Google Docs import is temporarily unavailable');
+	}
+
+	const decodedServiceAccount = Buffer.from(encodedServiceAccount, 'base64').toString('utf-8');
 	const credentials = JSON.parse(decodedServiceAccount);
 
 	try {

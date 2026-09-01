@@ -1,19 +1,22 @@
 import { Resend } from 'resend';
-import { RESEND_API_KEY, REVIEW_RECIPIENT_EMAILS } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import type { Review } from './gpt.service';
 import type { InsertArticle, InsertAuthor } from '../schema';
-
-const resend = new Resend(RESEND_API_KEY);
 
 export async function sendReviewEmail(
 	article: InsertArticle,
 	author: InsertAuthor,
 	review: Review
 ) {
+	if (!env.RESEND_API_KEY || !env.REVIEW_RECIPIENT_EMAILS) {
+		throw new Error('Article review email is temporarily unavailable');
+	}
+
+	const resend = new Resend(env.RESEND_API_KEY);
 	return resend.emails.send({
 		from: '2077 Research <community@2077.xyz>',
 		// TODO: Change this to 2077 Research email
-		to: REVIEW_RECIPIENT_EMAILS.split(','),
+		to: env.REVIEW_RECIPIENT_EMAILS.split(','),
 		subject: `Review of ${article.articleTitle} from ${author.name}`,
 		html: buildEmailBody(article, author, review)
 	});

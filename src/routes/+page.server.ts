@@ -1,5 +1,4 @@
 import { fetchGhostArticles, fetchGhostArticlesFilters } from '$lib/services/ghost.service';
-import { error } from '@sveltejs/kit';
 
 export async function load() {
 	try {
@@ -14,9 +13,9 @@ export async function load() {
 			'DePIN'
 		]);
 
-		return { articles: posts, recentPosts };
+		return { articles: posts, recentPosts, contentUnavailable: false };
 	} catch (err) {
 		console.error('Error loading articles:', err);
-		throw error(500, { message: 'Failed to load articles' });
+		return { articles: [], recentPosts: [], contentUnavailable: true };
 	}
 }

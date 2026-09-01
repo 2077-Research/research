@@ -1,4 +1,4 @@
-import { BEEHIIV_API_KEY, BEEHIIV_PUBLICATION_ID } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -41,10 +41,10 @@ export const load: PageServerLoad = async ({ params }) => {
 		console.log('Starting load function with params:', params);
 
 		const postsResponse = await fetch(
-			`https://api.beehiiv.com/v2/publications/${BEEHIIV_PUBLICATION_ID}/posts`,
+			`https://api.beehiiv.com/v2/publications/${env.BEEHIIV_PUBLICATION_ID}/posts`,
 			{
 				headers: {
-					Authorization: `Bearer ${BEEHIIV_API_KEY}`,
+					Authorization: `Bearer ${env.BEEHIIV_API_KEY}`,
 					Accept: 'application/json'
 				}
 			}
@@ -66,10 +66,10 @@ export const load: PageServerLoad = async ({ params }) => {
 		console.log('Found post with ID:', postInfo.id);
 
 		const postResponse = await fetch(
-			`https://api.beehiiv.com/v2/publications/${BEEHIIV_PUBLICATION_ID}/posts/${postInfo.id}?expand=free_web_content`,
+			`https://api.beehiiv.com/v2/publications/${env.BEEHIIV_PUBLICATION_ID}/posts/${postInfo.id}?expand=free_web_content`,
 			{
 				headers: {
-					Authorization: `Bearer ${BEEHIIV_API_KEY}`,
+					Authorization: `Bearer ${env.BEEHIIV_API_KEY}`,
 					Accept: 'application/json'
 				}
 			}

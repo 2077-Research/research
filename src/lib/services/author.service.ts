@@ -8,6 +8,10 @@ export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 		return null;
 	}
 
+	if (!ghostAPI) {
+		return null;
+	}
+
 	const cacheKey = `author-with-articles-${slug}`;
 
 	if (cache.has(cacheKey)) {
@@ -57,6 +61,10 @@ export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 };
 
 export const fetchAuthorsGhost = async () => {
+	if (!ghostAPI) {
+		return [];
+	}
+
 	const cacheKey = `contributors`;
 
 	if (cache.has(cacheKey)) {

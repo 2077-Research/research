@@ -14,6 +14,10 @@ export async function createArticle(
 	article: Omit<InsertArticle, 'authorId'>,
 	author: InsertAuthor
 ) {
+	if (!db) {
+		throw new Error('Article review is temporarily unavailable');
+	}
+
 	const { id: authorId } = await getOrCreateAuthor(author);
 
 	// If both article content and link are provided, we use the link to fetch the content
@@ -33,10 +37,18 @@ export async function createArticle(
 }
 
 export async function getAllArticles(): Promise<SelectArticle[]> {
+	if (!db) {
+		return [];
+	}
+
 	return await db.query.articles.findMany();
 }
 
 export async function getOrCreateAuthor(author: InsertAuthor) {
+	if (!db) {
+		throw new Error('Article review is temporarily unavailable');
+	}
+
 	const existingAuthor = await db.query.authors.findFirst({
 		where: eq(authors.email, author.email)
 	});

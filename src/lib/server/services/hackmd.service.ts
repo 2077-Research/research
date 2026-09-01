@@ -1,9 +1,9 @@
-import { HACKMD_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export async function fetchHackMDAsMarkdown(link: string) {
 	const response = await fetch(`https://api.hackmd.io/v1/notes/${getHackMDIdFromLink(link)}`, {
 		headers: {
-			Authorization: `Bearer ${HACKMD_API_KEY}`
+			Authorization: `Bearer ${env.HACKMD_API_KEY}`
 		}
 	});
 	return response.text();
@@ -18,7 +18,7 @@ export async function createdTeamNote(title: string, content: string) {
 	const response = await fetch(`https://api.hackmd.io/v1/teams/2077Research/notes`, {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${HACKMD_API_KEY}`,
+			Authorization: `Bearer ${env.HACKMD_API_KEY}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({

@@ -10,10 +10,10 @@
 	import Algolia from './icons/Algolia.svelte';
 	import EmptySearch from './icons/EmptySearch.svelte';
 
-	const client = algoliasearch(
-		import.meta.env.VITE_ALGOLIA_APP_ID,
-		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
-	);
+	const algoliaAppId = import.meta.env.VITE_ALGOLIA_APP_ID;
+	const algoliaSearchKey = import.meta.env.VITE_ALGOLIA_SEARCH_KEY;
+	const client =
+		algoliaAppId && algoliaSearchKey ? algoliasearch(algoliaAppId, algoliaSearchKey) : null;
 
 	interface HighlightResultWithContent {
 		title?: {
@@ -63,6 +63,12 @@
 
 		debounceTimeout = setTimeout(async () => {
 			if (!query) {
+				results.set({});
+				loading.set(false);
+				return;
+			}
+
+			if (!client) {
 				results.set({});
 				loading.set(false);
 				return;
