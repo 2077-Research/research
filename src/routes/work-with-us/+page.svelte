@@ -4,7 +4,6 @@
 	import Abcde from '$lib/components/ui/icons/partners/ABCDE.svelte';
 	import Azuki from '$lib/components/ui/icons/partners/Azuki.svelte';
 	import Cio from '$lib/components/ui/icons/partners/Cio.svelte';
-	import Eclipse from '$lib/components/ui/icons/partners/Eclipse.svelte';
 	import EigenLayer from '$lib/components/ui/icons/partners/EigenLayer.svelte';
 	import FastCompany from '$lib/components/ui/icons/partners/FastCompany.svelte';
 	import Fuel from '$lib/components/ui/icons/partners/Fuel.svelte';
@@ -30,8 +29,7 @@
 		Abcde,
 		Azuki,
 		Metalex,
-		Fuel,
-		Eclipse
+		Fuel
 	];
 
 	let text = 'research@2077.xyz';
@@ -102,7 +100,7 @@
 		<div class="absolute left-1/2 -translate-x-1/2 z-30 top-0 mt-6 md:mt-14">
 			<p class="text-sm font-bold text-[#0CDEE9]">Trusted by</p>
 
-			<div class="mt-4 grid w-[350px] grid-cols-4 md:w-[980px] md:grid-cols-7">
+			<div class="mt-4 grid w-[350px] grid-cols-4 md:w-[960px] md:grid-cols-6">
 				{#each partners as PartnerIcon}
 					<div
 						class="flex h-[72px] items-center justify-center border-[0.807px] border-[#262626] bg-[#0B0B0C] p-4 text-[#A6A6A6] transition hover:bg-[#0CDEE9] hover:text-black"
