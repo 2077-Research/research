@@ -16,8 +16,18 @@
 
 	const FEATURED_COUNT = 5;
 	const POPULAR_COUNT = 10;
-	const featuredArticles = $derived(articles.slice(0, FEATURED_COUNT));
-	const popularReads = $derived(articles.slice(FEATURED_COUNT, FEATURED_COUNT + POPULAR_COUNT));
+	const orderedArticles = $derived(
+		data.featuredArticle
+			? [
+					data.featuredArticle,
+					...articles.filter((article) => article.slug !== data.featuredArticle?.slug)
+				]
+			: articles
+	);
+	const featuredArticles = $derived(orderedArticles.slice(0, FEATURED_COUNT));
+	const popularReads = $derived(
+		orderedArticles.slice(FEATURED_COUNT, FEATURED_COUNT + POPULAR_COUNT)
+	);
 
 	onMount(() => {
 		setArticles(data.articles);
