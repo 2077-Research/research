@@ -4,7 +4,6 @@
 	import ShareArrow from './icons/ShareArrow.svelte';
 	import TextSize from './icons/TextSize.svelte';
 
-	import * as Popover from '$lib/components/ui/popover';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { cn } from '$lib/utils/ui-components';
 	import AudioListen from './AudioListen.svelte';
@@ -134,31 +133,25 @@
 		{/if}
 	</Tooltip.Root>
 
-	<Tooltip.Root openDelay={5}>
-		<Tooltip.Trigger class="hover:text-white transition">
-			<Popover.Root open={isShareOpen} onOpenChange={(open) => (isShareOpen = open)}>
-				<Popover.Trigger>
-					<span>
-						<ShareArrow />
-					</span>
-				</Popover.Trigger>
-				<Popover.Content
-					class="p-0 rounded-none border-none w-40 bg-backgroundLighter shadow-lg font-mono"
-					align="start">{@render shareOptions()}</Popover.Content
-				>
-			</Popover.Root>
-		</Tooltip.Trigger>
+	<div class="relative">
+		<button
+			type="button"
+			class="block hover:text-white transition"
+			aria-label="Share this article"
+			aria-expanded={isShareOpen}
+			onclick={() => (isShareOpen = !isShareOpen)}
+		>
+			<ShareArrow />
+		</button>
 
-		{#if !isShareOpen}
-			<Tooltip.Content
-				side="left"
-				sideOffset={28}
-				class="bg-[#19191b] border-0 text-sm text-neutral-20 font-mono max-w-[160px] px-2.5 py-1.5"
+		{#if isShareOpen}
+			<div
+				class="absolute right-full top-0 mr-4 w-40 bg-backgroundLighter shadow-lg font-mono text-neutral-20"
 			>
-				<p>Share this article</p>
-			</Tooltip.Content>
+				{@render shareOptions()}
+			</div>
 		{/if}
-	</Tooltip.Root>
+	</div>
 
 	{#if !isLoggedIn}
 		<Tooltip.Root openDelay={5}>
