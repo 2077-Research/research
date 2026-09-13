@@ -4,17 +4,6 @@
 	import { AnimateSharedLayout } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
 
-	import Cio from '$lib/components/ui/icons/partners/Cio.svelte';
-	import EigenLayer from '$lib/components/ui/icons/partners/EigenLayer.svelte';
-	import FastCompany from '$lib/components/ui/icons/partners/FastCompany.svelte';
-	import Light from '$lib/components/ui/icons/partners/Light.svelte';
-	import MegaEth from '$lib/components/ui/icons/partners/MegaEth.svelte';
-	import Pymnts from '$lib/components/ui/icons/partners/Pymnts.svelte';
-	import Spire from '$lib/components/ui/icons/partners/Spire.svelte';
-	import Starknet from '$lib/components/ui/icons/partners/Starknet.svelte';
-
-	const partners = [FastCompany, Pymnts, Cio, Spire, EigenLayer, Light, Starknet, MegaEth];
-
 	let api: CarouselAPI | undefined;
 	let current = 0;
 	let count = 0;
@@ -268,15 +257,6 @@
 						What the people <br /> are saying about us
 					</h3>
 
-					<div class="mt-6 flex items-center flex-wrap flex-shrink-0 max-w-[380px]">
-						{#each partners as PartnerIcon}
-							<div
-								class="h-[47px] p-4 border-[0.807px] border-[#262626] bg-[#0B0B0C] flex items-center justify-center text-[#A6A6A6] hover:text-black hover:bg-[#0CDEE9] transition"
-							>
-								<PartnerIcon />
-							</div>
-						{/each}
-					</div>
 				</div>
 			</div>
 
