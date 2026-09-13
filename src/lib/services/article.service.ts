@@ -1,6 +1,6 @@
 import { cache, isCacheValid } from '$lib/utils/cache';
 import { ghostAPI } from '$lib/utils/ghost';
-import { transformToFullArticle as transformToFullArticleGhost } from '$lib/server/transform-full-article';
+import { transformToFullArticle as transformToFullArticleGhost } from '$lib/utils/transform-article';
 
 export const getGhostArticleBySlug = async (slug: string) => {
 	if (!slug?.trim()) {
