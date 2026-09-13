@@ -817,8 +817,8 @@
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign up for free to {bannerSubTitle}, highlight key insights, follow topics, and receive
-						curated newsletters. Explore the future of Ethereum without limits.
+						Sign up for free to {bannerSubTitle}, highlight key insights, and follow topics. Explore
+						crypto research without limits.
 					</p>
 				</div>
 

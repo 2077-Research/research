@@ -30,11 +30,11 @@
 
 			<div class="mt-4">
 				<p class="font-light text-neutral-10 leading-[20.8px]">
-					2077 Research is dedicated to helping people navigate the frontier of Ethereum's research
-					and development (R&D). We explore cutting-edge topics across scaling, interoperability,
-					Ethereum standards, DeFi, staking, MEV, UX, privacy, and more. By simplifying complex
-					ideas and providing actionable insights, we empower our audience to make informed
-					decisions in the evolving Ethereum ecosystem.
+					2077 Research is dedicated to helping people navigate the frontier of crypto research. We
+					explore cutting-edge topics across protocols, scaling, interoperability, decentralized
+					finance, security, governance, privacy, and more. By simplifying complex ideas and
+					providing actionable insights, we empower our audience to make informed decisions across a
+					fast-moving crypto ecosystem.
 				</p>
 
 				<div class="flex items-center flex-wrap gap-2 mt-7">
@@ -126,47 +126,16 @@
 
 			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-6">
 				<TeamCard
-					twitter_username="eawosikaa"
-					full_name="Emmanuel Awosika"
-					role="CEO"
-					summary="Chaos agent. Learning machine. Crazy genius. Ethernaut making Ethereum cool again."
-				/>
-				<TeamCard
-					twitter_username="korayakpinarr"
-					full_name="Koray Akpınar"
-					role="Research Lead"
-					summary="'Arise, you have nothing to lose but your barbed wire fences!'"
-				/>
-				<TeamCard
-					twitter_username="losndu"
-					full_name="Chijindu Julian"
-					role="Engineering Lead"
-					summary="Software Engineer | Technical Writer"
-				/>
-				<TeamCard
-					twitter_username="lynettdoteth"
-					full_name="lynett.eth"
-					role="Developer"
-					summary="Crypto-anarchist developer and Ethereum maxi. In her free time, she buys more ETH."
-				/>
-
-				<TeamCard
-					twitter_username="alexhooketh"
-					full_name="Alex Hook"
-					role="Researcher"
-					summary="Founder @ Untron. Change the world. Start with the money."
-				/>
-				<TeamCard
-					twitter_username="0x_zhev"
-					full_name="Zhev"
-					role="Researcher"
-					summary="pursuing perpetually orthogonal interests. resident lemur @ west ham gc"
+					twitter_username="fikunmi_ap"
+					full_name="Fikunmi"
+					role="Founder"
+					summary="Rebuilding 2077 Research and making complex crypto systems easier to understand."
 				/>
 			</div>
 		</div>
 	</section>
 
-	<section class="relative overflow-hidden py-16 bg-[#020203] hidden">
+	<section class="relative overflow-hidden py-16 bg-[#020203]">
 		<div class="relative z-20 container">
 			<h2
 				id="contributors"
@@ -176,9 +145,14 @@
 			</h2>
 
 			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-				<ContributorCard full_name="Fikunmi" twitter_username="fikunmi_ap" />
+				<ContributorCard full_name="Koray Akpınar" twitter_username="korayakpinarr" />
+				<ContributorCard full_name="Chijindu Julian" twitter_username="losndu" />
+				<ContributorCard full_name="lynett.eth" twitter_username="lynettdoteth" />
+				<ContributorCard full_name="Alex Hook" twitter_username="alexhooketh" />
+				<ContributorCard full_name="Zhev" twitter_username="0x_zhev" />
 				<ContributorCard full_name="sm-stack" twitter_username="stackdigest" />
 				<ContributorCard full_name="Seongwan Park" twitter_username="seongwan_eth" />
+				<ContributorCard full_name="Emmanuel Awosika" twitter_username="eawosikaa" />
 				<ContributorCard full_name="Sankritsan" twitter_username="sankritsan" />
 				<ContributorCard full_name="Arbnom" twitter_username="arbnom" />
 				<ContributorCard full_name="BTC Penguin" twitter_username="btc_penguin" />
@@ -186,7 +160,6 @@
 				<ContributorCard full_name="Yayya" twitter_username="yayya_ahd" />
 				<ContributorCard full_name="Yiğit Yektin" twitter_username="yigityektin" />
 				<ContributorCard full_name="Nikhil" />
-				<ContributorCard full_name="Annie" />
 			</div>
 		</div>
 

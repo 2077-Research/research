@@ -2,7 +2,6 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { cn } from '$lib/utils/ui-components';
 	import type { CarouselAPI } from './carousel/context';
-	import EthNavigator from './icons/EthNavigator.svelte';
 	import Telegram from './icons/Telegram.svelte';
 	import X from './icons/X.svelte';
 
@@ -18,15 +17,6 @@
 	}
 
 	const socials = [
-		{
-			name: 'Ethereum Navigator',
-			icon: EthNavigator,
-			number: '500+',
-			subtitle: 'Subscribers',
-			ctaText: 'Subscribe',
-			href: '/ethereum-naviagtor',
-			isExternal: false
-		},
 		{
 			name: 'Twitter/X',
 			icon: X,
@@ -46,6 +36,7 @@
 			isExternal: true
 		}
 	];
+	const slideCount = socials.length * 2;
 </script>
 
 <section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 md:pb-52 pb-40 overflow-hidden">
@@ -64,8 +55,8 @@
 	>
 		<Carousel.Content class="max-md:-mx-5">
 			{#each [...socials, ...socials] as social, i}
-				{@const isLeft = current === 1 ? 6 : current - 1}
-				{@const isRight = current === 6 ? 1 : current + 1}
+				{@const isLeft = current === 1 ? slideCount : current - 1}
+				{@const isRight = current === slideCount ? 1 : current + 1}
 
 				<Carousel.Item
 					class={cn('relative flex-none w-[304px] md:w-[397px] mr-2.5 md:mr-5 p-0')}

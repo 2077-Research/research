@@ -130,7 +130,7 @@
 					{
 						title: 'Who is the target audience?',
 						content:
-							'Our research is tailored for highly technical and semi-technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and Ethereum architecture.'
+							'Our research is tailored for highly technical and semi-technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and crypto infrastructure.'
 					},
 					{
 						title: 'What does this research cover?',

@@ -13,18 +13,17 @@
 	<h2 class="text-2xl font-semibold mb-4">Introduction</h2>
 	<p class="mb-4">
 		This Privacy Policy describes how 2077 Research ("we," "our," or "us") collects, uses, and
-		shares information about you when you visit our website, subscribe to our newsletter, or
-		otherwise interact with us.
+		shares information about you when you visit our website or otherwise interact with us.
 	</p>
 
 	<h2 class="text-2xl font-semibold mb-4">Information We Collect</h2>
 
 	<div class="mb-4">
 		<p>We collect the following types of information:</p>
-		<ul>
+		<ul class="mt-3 list-disc space-y-2 pl-6">
 			<li>
-				Contact Information: When you subscribe to our newsletter, we collect your email address and
-				any other information you voluntarily provide, such as your name.
+				Contact Information: When you contact us or submit material for review, we collect the
+				information you voluntarily provide, such as your name and email address.
 			</li>
 			<li>
 				Usage Data: We automatically collect information about your interactions with our website,
@@ -40,18 +39,18 @@
 	<h2 class="text-2xl font-semibold mb-4">How We Use Your Information</h2>
 	<p class="mb-4">We use your information for the following purposes:</p>
 
-	<ul class="mb-4">
-		<li>To provide our newsletter about Ethereum developments and research</li>
+	<ul class="mb-4 list-disc space-y-2 pl-6">
+		<li>To provide requested services and respond to submissions or inquiries</li>
 		<li>To improve and optimize our website and services</li>
-		<li>To communicate with you about your subscription</li>
+		<li>To communicate with you about your requests</li>
 		<li>To comply with legal obligations</li>
 	</ul>
 
 	<h2 class="text-2xl font-semibold mb-4">Information Sharing</h2>
 	<p class="mb-4">We may share your information with:</p>
 
-	<ul class="mb-4">
-		<li>Service providers who assist us in operating our website and delivering our newsletter</li>
+	<ul class="mb-4 list-disc space-y-2 pl-6">
+		<li>Service providers who assist us in operating our website and services</li>
 		<li>Legal authorities when required by law</li>
 		<li>Third parties in the event of a business transfer or acquisition</li>
 		<li>To comply with legal obligations</li>
@@ -62,7 +61,7 @@
 	<h2 class="text-2xl font-semibold mb-4">Your Rights</h2>
 	<p class="mb-4">Depending on your location, you may have rights to:</p>
 
-	<ul class="mb-4">
+	<ul class="mb-4 list-disc space-y-2 pl-6">
 		<li>Access the personal information we hold about you</li>
 		<li>Request correction of inaccurate information</li>
 		<li>Request deletion of your information</li>
@@ -87,7 +86,7 @@
 		our website with the effective date.
 	</p>
 
-	<p>Last Updated: February 27, 2025</p>
+	<p>Last Updated: September 13, 2026</p>
 </div>
 
 <ScrollToTopButton />

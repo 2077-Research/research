@@ -3,6 +3,15 @@ import { cache, isCacheValid } from '$lib/utils/cache';
 import { ghostAPI } from '$lib/utils/ghost';
 import { transformArticle } from '$lib/utils/transform-article';
 
+const fikunmiContributor = {
+	username: 'fikunmi',
+	id: 'fikunmi',
+	full_name: 'Fikunmi',
+	twitter_username: 'fikunmi_ap',
+	bio: 'Founder of 2077 Research.',
+	profile_only: true
+};
+
 export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 	if (!slug?.trim()) {
 		return null;
@@ -62,7 +71,7 @@ export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 
 export const fetchAuthorsGhost = async () => {
 	if (!ghostAPI) {
-		return [];
+		return [fikunmiContributor];
 	}
 
 	const cacheKey = `contributors`;
@@ -78,7 +87,7 @@ export const fetchAuthorsGhost = async () => {
 		const authors = await ghostAPI.authors.browse();
 
 		if (!authors) {
-			return [];
+			return [fikunmiContributor];
 		}
 
 		const transformedAuthors = authors.map((author: any) => ({
@@ -88,12 +97,19 @@ export const fetchAuthorsGhost = async () => {
 			twitter_username: author.twitter || null,
 			bio: author.bio
 		}));
+		const contributors = transformedAuthors.some(
+			(author: any) =>
+				author.username === fikunmiContributor.username ||
+				author.full_name?.toLowerCase() === fikunmiContributor.full_name.toLowerCase()
+		)
+			? transformedAuthors
+			: [fikunmiContributor, ...transformedAuthors];
 
-		cache.set(cacheKey, { data: transformedAuthors, timestamp: Date.now() });
+		cache.set(cacheKey, { data: contributors, timestamp: Date.now() });
 
-		return transformedAuthors;
+		return contributors;
 	} catch (error) {
 		console.error('Error in fetchArticles:', error);
-		throw error;
+		return [fikunmiContributor];
 	}
 };

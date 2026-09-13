@@ -82,27 +82,27 @@
 	<div class="flex gap-4 w-full">
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="name">Name</Label>
-			<FormInput type="text" name="name" placeholder="Vitalik Buterin" required />
+			<FormInput type="text" name="name" placeholder="Ada Researcher" required />
 		</div>
 
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="email">Email</Label>
-			<FormInput type="email" name="email" placeholder="vitalik@ethereum.org" required />
+			<FormInput type="email" name="email" placeholder="ada@example.com" required />
 		</div>
 	</div>
 
 	<div class="flex gap-4 w-full">
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="telegram">Telegram</Label>
-			<FormInput type="text" name="telegram" placeholder="vitalik.buterin" />
+			<FormInput type="text" name="telegram" placeholder="ada_researcher" />
 		</div>
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="x">X</Label>
-			<FormInput type="text" name="x" placeholder="vitalik.buterin" />
+			<FormInput type="text" name="x" placeholder="ada_researcher" />
 		</div>
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="discord">Discord</Label>
-			<FormInput type="text" name="discord" placeholder="vitalik#1234" />
+			<FormInput type="text" name="discord" placeholder="ada_researcher" />
 		</div>
 	</div>
 
@@ -116,14 +116,19 @@
 	<div class="flex gap-4 w-full">
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="articleTitle">Article Title</Label>
-			<FormInput type="text" name="articleTitle" placeholder="The Future of Ethereum" required />
+			<FormInput
+				type="text"
+				name="articleTitle"
+				placeholder="The Future of Onchain Coordination"
+				required
+			/>
 		</div>
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="articleDescription">Article Description</Label>
 			<FormInput
 				type="text"
 				name="articleDescription"
-				placeholder="An in-depth analysis of the future of Ethereum"
+				placeholder="An in-depth analysis of emerging crypto infrastructure"
 				required
 			/>
 		</div>

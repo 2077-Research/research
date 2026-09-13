@@ -19,8 +19,8 @@
 			</h1>
 
 			<p class="text-neutral-10 mt-4">
-				Our contributors are researchers, builders, and thinkers pushing the boundaries of Ethereum
-				and Web3. Explore their work, insights, and the ideas driving decentralization forward.
+				Our contributors are researchers, builders, and thinkers pushing the boundaries of crypto.
+				Explore their work, insights, and the ideas moving open systems forward.
 			</p>
 		</div>
 	</div>
@@ -122,18 +122,20 @@
 						</p>
 
 						<div class="flex items-end justify-between mt-4">
-							<a
-								href={`/authors/${contributor.username}`}
-								class="h-9 flex items-center gap-2 rounded-[4px] bg-neutral-80 text-neutral-10 py-1.5 px-4 group text-sm !font-mono hover:opacity-80 transition"
-								onclick={(e) => e.stopPropagation()}
-								data-sveltekit-preload-data
-							>
-								View all articles by {contributor.full_name}
+							{#if !contributor.profile_only}
+								<a
+									href={`/authors/${contributor.username}`}
+									class="h-9 flex items-center gap-2 rounded-[4px] bg-neutral-80 text-neutral-10 py-1.5 px-4 group text-sm !font-mono hover:opacity-80 transition"
+									onclick={(e) => e.stopPropagation()}
+									data-sveltekit-preload-data
+								>
+									View all articles by {contributor.full_name}
 
-								<ArrowRight
-									class="group-hover:translate-x-[2px] transition will-change-transform size-4"
-								/>
-							</a>
+									<ArrowRight
+										class="group-hover:translate-x-[2px] transition will-change-transform size-4"
+									/>
+								</a>
+							{/if}
 
 							<button
 								class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden"

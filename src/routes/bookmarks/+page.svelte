@@ -86,8 +86,7 @@
 			</h1>
 
 			<p class="text-neutral-10 mt-4">
-				Our contributors are researchers, builders, and thinkers pushing the boundaries of Ethereum
-				and Web3. Explore their work, insights, and the ideas driving decentralization forward.
+				Your saved research, collected in one place for easy reference.
 			</p>
 		</div>
 	</div>

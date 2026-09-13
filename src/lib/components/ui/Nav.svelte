@@ -23,16 +23,6 @@
 		},
 
 		{
-			name: 'Contributors',
-			href: '/authors'
-		},
-
-		{
-			name: 'Newsletter',
-			href: '/ethereum-navigator'
-		},
-
-		{
 			name: 'About',
 			href: '/about'
 		},

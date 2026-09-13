@@ -12,16 +12,11 @@
 		navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
 			{ href: '/reports', text: 'Research', isExternal: false },
-			{ href: '/ethereum-navigator', text: 'Newsletter', isExternal: false },
 			{ href: '/about', text: 'About', isExternal: false },
 			{ href: '/work-with-us', text: 'Work with us', isExternal: false },
 			{ href: '/privacy-notice', text: 'Privacy', isExternal: false }
 		],
-		socials: [
-			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
-			{ href: 'https://t.me/2077research', text: 'Telegram', isExternal: true },
-			{ href: 'https://farcaster.xyz/2077research', text: 'Farcaster', isExternal: true }
-		]
+		socials: [{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true }]
 	};
 </script>
 

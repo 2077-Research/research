@@ -35,7 +35,7 @@
 				<h1
 					class="font-powerGroteskBold text-[30px] leading-9 md:leading-[48px] md:text-[48px] font-bold md:mb-3 mb-4 text-white"
 				>
-					Cutting-Edge <br class="md:hidden" /> Ethereum <br class="max-md:hidden" /> research for
+					Cutting-edge <br class="md:hidden" /> crypto <br class="max-md:hidden" /> research for
 					<br class="max-md:hidden" />
 
 					enthusiasts, builders, <br class="max-md:hidden" /> and industry leaders
@@ -44,17 +44,17 @@
 				<p
 					class="text-base leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[610px] font-hubot tracking-[0.18px]"
 				>
-					Navigate Ethereum’s evolving landscape <em>confidently</em>
+					Navigate crypto’s evolving landscape <em>confidently</em>
 					{' '} with original research and insights that cut through the noise. At 2077 Research, we
-					explore the ideas, innovations, and breakthroughs shaping the future of Ethereum and crypto—so
-					you can stay ahead in an industry that never stands still
+					explore the ideas, innovations, and breakthroughs shaping the future of crypto—so you can stay
+					ahead in an industry that never stands still
 				</p>
 
 				<p
 					class="text-base leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[610px] font-hubot tracking-[0.18px] mb-6 md:mb-8"
 				>
-					Ready to level up your knowledge? Explore our library of original research reports,
-					articles, and reports on the cutting edge of Ethereum tech.
+					Ready to level up your knowledge? Explore our library of original research reports and
+					articles on the cutting edge of crypto.
 				</p>
 
 				<a href="/reports" data-sveltekit-preload-data>
