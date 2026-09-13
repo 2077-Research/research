@@ -121,10 +121,13 @@
 	</div>
 {:else}
 	<Popover.Root>
-		<Popover.Trigger disabled={articleAudioUrl.length === 0} class="max-md:hidden"
-			><button
+		<Popover.Trigger asChild let:builder>
+			<button
+				{...builder}
+				use:builder.action
+				type="button"
 				class={cn(
-					'flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40',
+					'max-md:hidden flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40',
 					className
 				)}
 				disabled={articleAudioUrl.length === 0}

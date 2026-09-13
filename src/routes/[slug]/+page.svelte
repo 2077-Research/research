@@ -823,20 +823,18 @@
 				</div>
 
 				<div class="mt-[30px] flex items-center flex-wrap gap-[10.564px]">
-					<a href={`/signup?callback_url=/${$slug}`}>
-						<button
-							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 flex items-center justify-center hover:bg-neutral-80 transition !font-mono"
-						>
-							Create an Account
-						</button>
+					<a
+						href={`/signup?callback_url=/${$slug}`}
+						class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 flex items-center justify-center hover:bg-neutral-80 transition !font-mono"
+					>
+						Create an Account
 					</a>
 
-					<a href={`/signin?callback_url=/${$slug}`}>
-						<button
-							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 !font-mono flex items-center justify-center hover:bg-neutral-80 transition"
-						>
-							Sign In
-						</button>
+					<a
+						href={`/signin?callback_url=/${$slug}`}
+						class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 !font-mono flex items-center justify-center hover:bg-neutral-80 transition"
+					>
+						Sign In
 					</a>
 				</div>
 			</div>

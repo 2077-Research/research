@@ -51,14 +51,13 @@
 		scrollDirection === 'up' && 'z-[9999999] opacity-100'
 	)}
 >
-	<a href="/" class="flex items-center justify-center">
-		<button
-			class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
-			aria-label="Go back to home"
-		>
-			<Home class="size-5" />
-			<span class="text-xs font-medium">Home</span>
-		</button>
+	<a
+		href="/"
+		class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
+		aria-label="Go back to home"
+	>
+		<Home class="size-5" />
+		<span class="text-xs font-medium">Home</span>
 	</a>
 
 	{#if isLoggedIn}
@@ -108,12 +107,10 @@
 				<span class="text-xs font-medium">Account</span>
 			</button>
 		{:else}
-			<a href="/signin">
-				<button class="min-h-10 flex flex-col items-center gap-2">
-					<User class={cn('size-5 transition')} />
-					<span class="text-xs font-medium">Sign in</span>
-				</button></a
-			>
+			<a href="/signin" class="min-h-10 flex flex-col items-center gap-2">
+				<User class={cn('size-5 transition')} />
+				<span class="text-xs font-medium">Sign in</span>
+			</a>
 		{/if}
 	</div>
 </div>
