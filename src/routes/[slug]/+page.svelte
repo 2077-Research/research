@@ -601,7 +601,6 @@
 		handleFetchBookmarks();
 	});
 
-	let openShareMobile = $state(false);
 	let isBookmarking = $state(false);
 
 	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
@@ -925,59 +924,6 @@
 		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
 	}}
 />
-
-<!-- Share Mobile -->
-<div
-	class={cn(
-		'h-screen w-screen fixed bg-black top-0 left-0 z-[99999999] -translate-x-full transition will-change-transform flex flex-col',
-		openShareMobile && 'translate-x-0'
-	)}
->
-	<div class="flex items-center justify-between flex-shrink-0 p-4">
-		<h2 class="text-2xl font-medium font-powerGroteskBold">Share</h2>
-
-		<button
-			class="size-10 flex items-center justify-center"
-			onclick={() => (openShareMobile = false)}
-		>
-			<X />
-		</button>
-	</div>
-
-	<div class="flex-1 px-4 pb-8 overflow-y-auto space-y-3">
-		{#each shareOptions as option}
-			<a
-				href={option.url}
-				target="_blank"
-				rel="noopener noreferrer"
-				role="menuitem"
-				class="hover:bg-white hover:text-black flex items-center gap-2 h-10"
-				data-sveltekit-preload-data
-			>
-				{#if option.isSvg}
-					{@html option.icon}
-				{:else}
-					{@const IconComponent = option.icon}
-					<IconComponent class="size-5" />
-				{/if}
-				<span class="text-sm">{option.name}</span>
-			</a>
-		{/each}
-
-		<button
-			onclick={copyShareLink}
-			role="menuitem"
-			class="w-full hover:bg-white hover:text-black text-left flex items-center gap-2 h-10"
-		>
-			<Link2 class="size-5" />
-			{#if copySuccess}
-				<span class="text-special-blue text-sm">Link copied</span>
-			{:else}
-				<span class="text-sm">Copy link</span>
-			{/if}
-		</button>
-	</div>
-</div>
 
 <div id="article-page">
 	<div class="md:flex gap-8 container">
