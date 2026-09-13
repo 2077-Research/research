@@ -21,7 +21,6 @@
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
-	import DOMPurify from 'isomorphic-dompurify';
 	import {
 		Bookmark,
 		FileDown,
@@ -182,26 +181,6 @@
 				});
 			});
 		}
-	}
-
-	function addSmoothScrollingToInternalLinks() {
-		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-			anchor.addEventListener('click', function (e) {
-				e.preventDefault();
-
-				const targetId = anchor.getAttribute('href')?.substring(1);
-				if (!targetId) return;
-
-				const targetElement = document.getElementById(targetId);
-
-				if (targetElement) {
-					targetElement.scrollIntoView({
-						behavior: 'smooth',
-						block: 'start'
-					});
-				}
-			});
-		});
 	}
 
 	function toggleSummary() {
@@ -412,41 +391,6 @@
 		showShareDropdown = true;
 	}
 
-	function sanitizeContent(content: string) {
-		// The following line causes a desync between server & client, resulting in
-		// massive fuckery. Do not uncomment without a very good reason.
-		//if (!browser) return content;
-		return DOMPurify.sanitize(content, {
-			ALLOWED_TAGS: [
-				'h1',
-				'h2',
-				'h3',
-				'h4',
-				'p',
-				'a',
-				'strong',
-				'em',
-				'ul',
-				'ol',
-				'li',
-				'img',
-				'pre',
-				'code',
-				'blockquote',
-				'table',
-				'tr',
-				'td',
-				'th',
-				'figure',
-				'figcaption',
-				'article',
-				'div',
-				'span'
-			],
-			ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
-		});
-	}
-
 	let isReadingMode = $state(false);
 
 	function refreshToc() {
@@ -463,7 +407,6 @@
 		}
 
 		highlightCodeBlocks();
-		addSmoothScrollingToInternalLinks();
 		updateImageEventListeners();
 
 		const observer = new MutationObserver(() => {
@@ -1381,7 +1324,7 @@
 					</div>
 				{/if}
 
-				{@html sanitizeContent(article.content)}
+				{@html article.content}
 			</div>
 
 			{#if article.tags.length > 0}
@@ -1603,7 +1546,7 @@
 					[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
 					[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal"
 				>
-					{@html sanitizeContent(data.article.gpt_summary)}
+					{@html data.article.gpt_summary}
 				</div>
 			</div>
 		</div>
