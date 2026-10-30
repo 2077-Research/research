@@ -1,7 +1,9 @@
-import { env } from '$env/dynamic/public';
 import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = env.PUBLIC_SUPABASE_URL || 'https://unavailable.supabase.co';
-const supabaseAnonKey = env.PUBLIC_SUPABASE_ANON_KEY || 'unavailable';
+
+// Authentication is disabled until Supabase is configured. Keeping these
+// placeholders local avoids a deployment-specific runtime env chunk in browsers.
+const supabaseUrl = 'https://unavailable.supabase.co';
+const supabaseAnonKey = 'unavailable';
 
 const isBrowser = typeof window !== 'undefined';
 

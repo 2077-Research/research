@@ -1,14 +1,11 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_GHOST_KEY, PUBLIC_GHOST_URL } from '$env/static/public';
 import GhostContentAPI from '@tryghost/content-api';
 
-const ghostUrl = env.PUBLIC_GHOST_URL;
-const ghostKey = env.PUBLIC_GHOST_KEY;
-
 export const ghostAPI =
-	ghostUrl && ghostKey
+	PUBLIC_GHOST_URL && PUBLIC_GHOST_KEY
 		? new GhostContentAPI({
-				url: ghostUrl,
-				key: ghostKey,
+				url: PUBLIC_GHOST_URL,
+				key: PUBLIC_GHOST_KEY,
 				version: 'v5.0'
 			})
 		: null;
