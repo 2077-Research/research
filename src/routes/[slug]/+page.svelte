@@ -37,9 +37,6 @@
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
-	import 'prismjs/plugins/toolbar/prism-toolbar';
-	import 'prismjs/plugins/show-language/prism-show-language';
-	import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -1218,7 +1215,7 @@
 			[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
+			[&_pre]:overflow-x-auto [&_pre]:bg-[#1A1A1A] [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
 			[&_figure]:my-6 [&_figure]:text-center
 			[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
 
@@ -1530,45 +1527,5 @@
 			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
 			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal;
 		@apply font-eb-garamond;
-	}
-
-	:global(#content-container div.code-toolbar) {
-		@apply relative my-8 overflow-hidden rounded-xl border border-white/10 bg-[#0d1017] shadow-2xl;
-	}
-
-	:global(#content-container div.code-toolbar::before) {
-		content: '●  ●  ●';
-		@apply block border-b border-white/10 px-4 py-2 text-[9px] tracking-[3px] text-neutral-60;
-	}
-
-	:global(#content-container div.code-toolbar > pre) {
-		@apply m-0 overflow-x-auto bg-transparent p-5 text-sm leading-6 text-gray-100;
-		scrollbar-width: thin;
-		scrollbar-color: #3f4858 transparent;
-	}
-
-	:global(#content-container div.code-toolbar > pre > code) {
-		@apply block min-w-max bg-transparent p-0;
-		text-shadow: none;
-	}
-
-	:global(#content-container div.code-toolbar .token.operator) {
-		background: transparent;
-	}
-
-	:global(#content-container div.code-toolbar > .toolbar) {
-		@apply absolute right-3 top-2 flex items-center gap-2 font-mono text-[11px] text-neutral-40 opacity-100;
-	}
-
-	:global(#content-container div.code-toolbar > .toolbar .toolbar-item span) {
-		@apply uppercase tracking-wider;
-	}
-
-	:global(#content-container .copy-to-clipboard-button) {
-		@apply rounded-md border border-white/10 bg-white/5 px-2 py-1 text-neutral-20 transition hover:bg-white/10 hover:text-white;
-	}
-
-	:global(#content-container .copy-to-clipboard-button[data-copy-state='copy-success']) {
-		@apply border-emerald-400/30 text-emerald-300;
 	}
 </style>
