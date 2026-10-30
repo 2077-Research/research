@@ -32,15 +32,15 @@
 		class="hidden lg:block w-1/5 sticky top-24 self-start max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot uppercase pb-6"
 		aria-label="Table of contents"
 	>
-		<p class="text-[15px] font-mono text-neutral-60 uppercase mb-3">Table of contents</p>
-		<nav>{@render tocItems(tableOfContents)}</nav>
+		<details class="toc-panel" open>
+			<summary>Table of contents</summary>
+			<nav>{@render tocItems(tableOfContents)}</nav>
+		</details>
 	</aside>
 
-	<details class="lg:hidden sticky top-[80px] z-[999999] mb-4 bg-secondary font-mono">
-		<summary class="cursor-pointer p-3 text-sm uppercase text-neutral-20">
-			Table of contents
-		</summary>
-		<nav class="max-h-[calc(100dvh-140px)] overflow-y-auto px-4 pb-4 uppercase">
+	<details class="toc-panel lg:hidden sticky top-[80px] z-[999999] mb-4 bg-secondary font-mono">
+		<summary>Table of contents</summary>
+		<nav class="max-h-[calc(100dvh-140px)] overflow-y-auto uppercase">
 			{@render tocItems(tableOfContents)}
 		</nav>
 	</details>
@@ -52,8 +52,33 @@
 		scrollbar-color: var(--neutral-80) transparent;
 	}
 
+	.toc-panel {
+		@apply rounded-lg border border-white/10 bg-white/[0.025] p-3;
+	}
+
+	.toc-panel summary {
+		@apply flex cursor-pointer list-none items-center justify-between font-mono text-sm text-neutral-40;
+	}
+
+	.toc-panel summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.toc-panel summary::after {
+		content: '+';
+		@apply text-lg font-normal text-neutral-20;
+	}
+
+	.toc-panel[open] summary::after {
+		content: '−';
+	}
+
+	.toc-panel nav {
+		@apply mt-3 border-l border-white/10 pl-3;
+	}
+
 	.toc-link {
-		text-decoration: none;
+		@apply rounded-r-md px-2 no-underline hover:bg-white/5;
 		color: inherit;
 	}
 
