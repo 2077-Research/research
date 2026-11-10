@@ -7,7 +7,7 @@ small commit with its own verification.
 ## P0 — production and compliance risk
 
 - [x] Require consent before loading non-essential analytics and provide persistent cookie settings.
-- [ ] Update the privacy notice to match the site's actual data processing and vendors.
+- [x] Update the privacy notice to match the site's actual data processing and vendors.
 - [x] Disable the dormant public article-review workflow until abuse controls and disclosures exist.
 - [x] Remove the client-embedded BeyondWords credential and keep dormant narration inert.
 - [ ] Revoke the previously published BeyondWords credential in the provider dashboard (owner action).
