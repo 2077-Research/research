@@ -30,7 +30,7 @@ small commit with its own verification.
 - [x] Correct canonical, Open Graph, Twitter, and per-route metadata.
 - [x] Correct and complete the XML sitemap without logging article contents.
 - [ ] Fix known accessible-name, keyboard, and ARIA issues; add automated accessibility checks.
-- [ ] Publish `security.txt` and document the vulnerability-reporting contact.
+- [x] Publish `security.txt` and document the vulnerability-reporting contact.
 - [ ] Remove duplicate/dead frontend assets and address build warnings.
 
 ## P3 — governance and owner input
