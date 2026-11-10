@@ -6,12 +6,14 @@
 
 	const { article }: { article?: Article } = $props();
 
-	const pageUrl = $page.url.origin;
+	const pageUrl = `${$page.url.origin}${$page.url.pathname}`;
 
 	const sanitizedTitle = article ? sanitizeTitle(article.title) : '';
 	const sanitizedSummary = article ? sanitizeTitle(article.summary) : '';
-	const sanitizedThumb = article ? sanitizeTitle(article.thumb_url || '') : '';
-	const sanitizedUrl = article ? sanitizeTitle(`${pageUrl}/${article.slug}`) : '';
+	const sanitizedThumb = article
+		? sanitizeTitle(new URL(article.thumb_url || '/preview-image.jpg', $page.url.origin).href)
+		: '';
+	const sanitizedUrl = article ? sanitizeTitle(pageUrl) : '';
 	const sanitizedAuthors =
 		article?.authors?.map((author) => author.full_name || author.username)?.join(', ') ?? '';
 </script>
@@ -19,14 +21,15 @@
 <svelte:head>
 	{#if article}
 		<title>{sanitizedTitle}</title>
+		<link rel="canonical" href={sanitizedUrl} />
 		<meta charset="utf-8" />
 		<meta name="generator" content="2077 Research" />
 
 		<!-- OG meta tags -->
-		<meta property="og:site_name" content={sanitizedTitle} />
+		<meta property="og:site_name" content="2077 Research" />
 		<meta property="og:locale" content="en" />
 		<meta property="og:url" content={sanitizedUrl} />
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content="article" />
 		<meta property="og:title" content={sanitizedTitle} />
 		<meta property="og:description" content={sanitizedSummary} />
 		<meta property="og:image" content={sanitizedThumb} />

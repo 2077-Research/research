@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import { sanitizeTitle } from '$lib/utils/sanitise';
 
-	const pageUrl = $page.url.origin;
-	const image = `${pageUrl}/preview-image.jpg`;
+	const pageUrl = `${$page.url.origin}${$page.url.pathname}`;
+	const image = `${$page.url.origin}/preview-image.jpg`;
 	const title = '2077 Research: Cutting-Edge Crypto Research';
 	const description =
 		'2077 Research delivers high-signal research and insights on crypto protocols, scaling, interoperability, privacy, infrastructure, DeFi, and more.';
@@ -14,6 +14,7 @@
 
 <svelte:head>
 	<title>{sanitizedTitle}</title>
+	<link rel="canonical" href={pageUrl} />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="generator" content="2077 Research" />
@@ -23,6 +24,8 @@
 	<meta property="og:title" content={sanitizedTitle} />
 	<meta property="og:description" content={sanitizedDescription} />
 	<meta property="og:image" content={image} />
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:site_name" content="2077 Research" />
 
 	<!-- Twitter meta tags -->
 	<meta name="twitter:card" content="summary_large_image" />
