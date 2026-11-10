@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
+	import { serializeJsonLd } from '$lib/utils/html';
 
 	const { article }: { article: Article } = $props();
 
@@ -25,6 +26,8 @@
 		},
 		description: article.summary
 	});
+
+	const serializedJsonLd = $derived(serializeJsonLd(jsonLd()));
 </script>
 
-{@html `<script type="application/ld+json">${JSON.stringify(jsonLd())}</script>`}
+{@html `<script type="application/ld+json">${serializedJsonLd}</script>`}

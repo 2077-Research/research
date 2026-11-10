@@ -26,7 +26,7 @@ small commit with its own verification.
 ## P2 — security, accessibility, and discoverability
 
 - [x] Add missing security headers and tighten the Content Security Policy.
-- [ ] Escape bot-rendered HTML and safely serialize structured data.
+- [x] Escape bot-rendered HTML and safely serialize structured data.
 - [ ] Correct canonical, Open Graph, Twitter, and per-route metadata.
 - [ ] Correct and complete the XML sitemap without logging article contents.
 - [ ] Fix known accessible-name, keyboard, and ARIA issues; add automated accessibility checks.

@@ -1,12 +1,10 @@
 import { getGhostArticleBySlug } from '$lib/services/article.service';
+import { escapeHtml } from '$lib/utils/html';
 import type { RequestHandler } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params, request }) => {
-	const userAgent = request.headers.get('user-agent') || '';
 	const { slug } = params;
-
-	console.log('User-Agent:', userAgent);
 
 	// Fetch article
 	const post = await getGhostArticleBySlug(slug || '');
@@ -19,24 +17,18 @@ export const GET: RequestHandler = async ({ params, request }) => {
 	const origin = url.origin;
 
 	// Ensure absolute URLs for Twitter cards
-	const sanitizedTitle = post.title || 'Untitled Article';
-	const sanitizedSummary = post.summary || 'Read more on our website.';
-	const sanitizedThumb = post.thumb_url?.startsWith('http')
-		? post.thumb_url
-		: `${origin}${post.thumb_url}`;
-	const sanitizedUrl = `${origin}/${post.slug}`;
+	const sanitizedTitle = escapeHtml(post.title || 'Untitled Article');
+	const sanitizedSummary = escapeHtml(post.summary || 'Read more on our website.');
+	const sanitizedThumb = escapeHtml(
+		post.thumb_url?.startsWith('http') ? post.thumb_url : `${origin}${post.thumb_url}`
+	);
+	const sanitizedUrl = escapeHtml(`${origin}/${post.slug}`);
 
 	// Twitterbot/1.0
 
-	// If Twitterbot is detected, return lightweight metadata HTML
-	if (
-		userAgent.includes('TelegramBot') ||
-		userAgent.includes('Twitterbot') ||
-		userAgent.includes('WhatsApp') ||
-		userAgent.includes('LinkedInBot')
-	) {
-		return new Response(
-			`
+	// Requests negotiated to this endpoint receive lightweight metadata HTML.
+	return new Response(
+		`
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -65,12 +57,8 @@ export const GET: RequestHandler = async ({ params, request }) => {
       </body>
       </html>
     `.trim(),
-			{
-				headers: { 'Content-Type': 'text/html' }
-			}
-		);
-	}
-
-	// Otherwise, redirect to the full article page
-	return new Response(null, { status: 302, headers: { Location: `/${slug}` } });
+		{
+			headers: { 'Content-Type': 'text/html; charset=utf-8' }
+		}
+	);
 };
