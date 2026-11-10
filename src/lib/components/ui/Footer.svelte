@@ -75,6 +75,16 @@
 					</div>
 				</div>
 			{/each}
+			<div>
+				<p class="text-sm uppercase text-neutral-40">Preferences</p>
+				<button
+					type="button"
+					class="mt-[18px] text-left font-ibm text-sm text-neutral-20 hover:underline hover:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-white"
+					onclick={() => window.dispatchEvent(new CustomEvent('2077:open-cookie-settings'))}
+				>
+					Cookie settings
+				</button>
+			</div>
 		</div>
 	</div>
 </footer>

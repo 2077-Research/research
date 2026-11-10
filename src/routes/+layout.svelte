@@ -1,11 +1,9 @@
 <script lang="ts">
 	import Footer from '$lib/components/ui/Footer.svelte';
 	import Nav from '$lib/components/ui/Nav.svelte';
+	import CookieConsent from '$lib/components/ui/CookieConsent.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '../app.css';
-
-	injectAnalytics();
 
 	const { children } = $props();
 </script>
@@ -75,6 +73,7 @@
 	</div>
 	<div class="flex flex-col grow items-center">
 		<Footer />
+		<CookieConsent />
 		<Toaster richColors position="top-center" />
 	</div>
 </div>

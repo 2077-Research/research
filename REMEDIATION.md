@@ -6,7 +6,7 @@ small commit with its own verification.
 
 ## P0 — production and compliance risk
 
-- [ ] Require consent before loading non-essential analytics and provide persistent cookie settings.
+- [x] Require consent before loading non-essential analytics and provide persistent cookie settings.
 - [ ] Update the privacy notice to match the site's actual data processing and vendors.
 - [ ] Disable the dormant public article-review workflow until abuse controls and disclosures exist.
 - [ ] Triage and remediate production dependency vulnerabilities, prioritizing reachable critical/high issues.
