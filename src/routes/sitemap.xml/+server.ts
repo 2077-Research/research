@@ -1,59 +1,55 @@
 import { fetchGhostArticles } from '$lib/services/ghost.service';
 import type { RequestHandler } from '@sveltejs/kit';
 
-interface Article {
+interface SitemapArticle {
 	slug: string;
-	updatedAt: string | Date;
+	updated_at: string;
 }
 
-export const GET: RequestHandler = async ({ request }) => {
+const staticPaths = ['/', '/reports', '/about', '/work-with-us', '/privacy-notice', '/authors'];
+
+function escapeXml(value: string): string {
+	return value.replace(/[<>&'"]/g, (character) => {
+		return { '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[character]!;
+	});
+}
+
+export const GET: RequestHandler = async ({ url }) => {
 	try {
-		const protocol = request.headers.get('x-forwarded-proto') || 'http';
-		const host = request.headers.get('host') || 'localhost:5173';
-		const baseURL = import.meta.env.VITE_BASE_URL || `${protocol}://${host}`;
-		console.log('Base URL:', baseURL);
-
-		console.log('Fetching articles from Ghost CMS...');
-		const articles = await fetchGhostArticles();
-		console.log('Fetched articles:', articles);
-
-		console.log('Generating sitemap XML...');
+		const baseURL = import.meta.env.VITE_BASE_URL || url.origin;
+		const articles = (await fetchGhostArticles(undefined, 1, 'all')) as SitemapArticle[];
+		const staticUrls = staticPaths
+			.map(
+				(path) => `
+		<url>
+			<loc>${escapeXml(new URL(path, baseURL).href)}</loc>
+			<changefreq>${path === '/' || path === '/reports' ? 'daily' : 'monthly'}</changefreq>
+			<priority>${path === '/' ? '1.0' : '0.5'}</priority>
+		</url>`
+			)
+			.join('');
+		const articleUrls = articles
+			.map((article) => {
+				const lastModified = new Date(article.updated_at);
+				const lastmod = Number.isNaN(lastModified.getTime())
+					? ''
+					: `\n\t\t\t<lastmod>${lastModified.toISOString()}</lastmod>`;
+				return `
+		<url>
+			<loc>${escapeXml(new URL(encodeURIComponent(article.slug), `${baseURL}/`).href)}</loc>${lastmod}
+			<changefreq>monthly</changefreq>
+			<priority>0.8</priority>
+		</url>`;
+			})
+			.join('');
 		const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        <!-- Static Pages -->
-        <url>
-          <loc>${baseURL}</loc>
-          <lastmod>${new Date().toISOString()}</lastmod>
-          <changefreq>daily</changefreq>
-          <priority>1.0</priority>
-        </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticUrls}${articleUrls}
+</urlset>`;
 
-        <url>
-          <loc>${baseURL}/reports</loc>
-          <lastmod>${new Date().toISOString()}</lastmod>
-          <changefreq>daily</changefreq>
-          <priority>0.4</priority>
-        </url>
-        <!-- Dynamic Articles from Ghost -->
-        ${articles
-					.map(
-						(article: Article) => `
-          <url>
-            <loc>${baseURL}/${article.slug}</loc>
-            <lastmod>${new Date(article.updatedAt || new Date()).toISOString()}</lastmod>
-            <changefreq>monthly</changefreq>
-            <priority>0.8</priority>
-          </url>
-        `
-					)
-					.join('')}
-      </urlset>`;
-
-		console.log('Sitemap generated successfully.');
 		return new Response(sitemap, {
 			headers: {
-				'Content-Type': 'application/xml',
-				'Cache-Control': 'public, max-age=3600'
+				'Content-Type': 'application/xml; charset=utf-8',
+				'Cache-Control': 'public, max-age=3600, s-maxage=3600'
 			}
 		});
 	} catch (error) {

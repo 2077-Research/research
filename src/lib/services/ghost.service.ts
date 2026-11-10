@@ -5,7 +5,7 @@ import { transformArticle } from '$lib/utils/transform-article';
 export const fetchGhostArticles = async (
 	category?: string,
 	page = 1,
-	limit = 15,
+	limit: number | 'all' = 15,
 	bookmarks?: string[]
 ) => {
 	if (!ghostAPI) {

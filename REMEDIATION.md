@@ -28,7 +28,7 @@ small commit with its own verification.
 - [x] Add missing security headers and tighten the Content Security Policy.
 - [x] Escape bot-rendered HTML and safely serialize structured data.
 - [x] Correct canonical, Open Graph, Twitter, and per-route metadata.
-- [ ] Correct and complete the XML sitemap without logging article contents.
+- [x] Correct and complete the XML sitemap without logging article contents.
 - [ ] Fix known accessible-name, keyboard, and ARIA issues; add automated accessibility checks.
 - [ ] Publish `security.txt` and document the vulnerability-reporting contact.
 - [ ] Remove duplicate/dead frontend assets and address build warnings.
