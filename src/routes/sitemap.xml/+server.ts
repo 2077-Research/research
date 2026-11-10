@@ -34,14 +34,6 @@ export const GET: RequestHandler = async ({ request }) => {
           <changefreq>daily</changefreq>
           <priority>0.4</priority>
         </url>
-
-        <url>
-          <loc>${baseURL}/article-review</loc>
-          <lastmod>${new Date().toISOString()}</lastmod>
-          <changefreq>monthly</changefreq>
-          <priority>0.7</priority>
-        </url>
-
         <!-- Dynamic Articles from Ghost -->
         ${articles
 					.map(
