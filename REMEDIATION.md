@@ -12,7 +12,7 @@ small commit with its own verification.
 - [x] Remove the client-embedded BeyondWords credential and keep dormant narration inert.
 - [ ] Revoke the previously published BeyondWords credential in the provider dashboard (owner action).
 - [ ] Triage and remediate production dependency vulnerabilities, prioritizing reachable critical/high issues.
-- [ ] Preserve HTTP 404 responses for missing articles instead of converting them to HTTP 500.
+- [x] Preserve HTTP 404 responses for missing articles instead of converting them to HTTP 500.
 
 ## P1 — broken or unsafe functionality
 
