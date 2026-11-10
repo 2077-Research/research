@@ -690,52 +690,10 @@
 		return sortedPhrases.join(', ');
 	}
 
-	let articleAudioUrl = $state('');
-	let isAudioLoading = $state(true);
-	let blockAudio = $state(true);
-
-	const fetchAudio = async () => {
-		if (!isLoggedIn || blockAudio) {
-			isAudioLoading = false;
-			return;
-		}
-
-		const options = {
-			method: 'GET',
-			headers: {
-				accept: 'application/json',
-				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
-			}
-		};
-
-		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
-
-		try {
-			const response = await fetch(URL, options);
-			const result = await response.json();
-
-			const content = result.content;
-
-			if (content && Array.isArray(content)) {
-				const contentItem = content[0];
-				const audioItem = contentItem.audio.find(
-					(audio: any) => audio.content_type === 'audio/mpeg'
-				);
-
-				if (audioItem) {
-					articleAudioUrl = audioItem.url;
-				}
-			}
-		} catch (error) {
-			console.log({ error });
-		} finally {
-			isAudioLoading = false;
-		}
-	};
-
-	$effect(() => {
-		fetchAudio();
-	});
+	// Narration is unavailable while authentication and its server-side proxy are disabled.
+	// Keep the UI values inert rather than exposing a provider credential in browser code.
+	const articleAudioUrl = '';
+	const isAudioLoading = false;
 </script>
 
 <ArticleHead article={data.article} />

@@ -9,6 +9,8 @@ small commit with its own verification.
 - [x] Require consent before loading non-essential analytics and provide persistent cookie settings.
 - [ ] Update the privacy notice to match the site's actual data processing and vendors.
 - [ ] Disable the dormant public article-review workflow until abuse controls and disclosures exist.
+- [x] Remove the client-embedded BeyondWords credential and keep dormant narration inert.
+- [ ] Revoke the previously published BeyondWords credential in the provider dashboard (owner action).
 - [ ] Triage and remediate production dependency vulnerabilities, prioritizing reachable critical/high issues.
 - [ ] Preserve HTTP 404 responses for missing articles instead of converting them to HTTP 500.
 
