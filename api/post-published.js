@@ -1,3 +1,4 @@
+/* Retired implementation retained in history; do not reactivate without signed webhooks.
 const algoliasearch = require('algoliasearch');
 
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_KEY);
@@ -37,3 +38,7 @@ module.exports = async (req, res) => {
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 };
+*/
+
+module.exports = (_request, response) =>
+	response.status(410).json({ message: 'This webhook has been retired.' });

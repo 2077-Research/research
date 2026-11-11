@@ -1,3 +1,4 @@
+/* Retired implementation retained in history; do not reactivate without signed webhooks.
 const algoliasearch = require('algoliasearch');
 const GhostContentAPI = require('@tryghost/content-api');
 const Bottleneck = require('bottleneck');
@@ -164,3 +165,7 @@ module.exports = async (req, res) => {
 		});
 	}
 };
+*/
+
+module.exports = (_request, response) =>
+	response.status(410).json({ message: 'This webhook has been retired.' });
