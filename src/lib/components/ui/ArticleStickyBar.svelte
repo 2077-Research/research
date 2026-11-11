@@ -1,23 +1,13 @@
 <script lang="ts">
 	import HomeDoor from './icons/HomeDoor.svelte';
-	import PeopleCircle from './icons/PeopleCircle.svelte';
 	import ShareArrow from './icons/ShareArrow.svelte';
 	import TextSize from './icons/TextSize.svelte';
 
 	import { cn } from '$lib/utils/ui-components';
-	import AudioListen from './AudioListen.svelte';
-	import HeadPhones from './icons/HeadPhones.svelte';
-
+	import type { Snippet } from 'svelte';
 	import ReadingCustomize from './ReadingCustomize.svelte';
 
-	let {
-		isLoggedIn,
-		onNotSignedInListenClick,
-		onNotSignedInReadCustomizeClick,
-		onAccountClick,
-		articleAudioUrl,
-		shareOptions
-	} = $props();
+	let { shareOptions }: { shareOptions: Snippet } = $props();
 
 	let isOpenCustomizeOpen = $state(false);
 	let isShareOpen = $state(false);
@@ -35,79 +25,44 @@
 		<HomeDoor />
 	</a>
 
-	{#if isLoggedIn}
-		<AudioListen
-			{articleAudioUrl}
-			isLoading={false}
-			hideLabel
-			className={'[&_svg]:size-6'}
-			align={'start'}
-			side="left"
-			sideOffset={2}
-			alignOffset={-10}
-		/>
-	{:else}
+	<div class="relative" role="presentation" onmouseleave={() => (isOpenCustomizeOpen = false)}>
 		<button
 			type="button"
 			class="block hover:text-white transition"
-			onclick={onNotSignedInListenClick}
-			aria-label="Listen to this article"
-			title="Listen to this article"
-		>
-			<HeadPhones />
-		</button>
-	{/if}
-
-	{#if isLoggedIn}
-		<div class="relative" onmouseleave={() => (isOpenCustomizeOpen = false)}>
-			<button
-				type="button"
-				class="block hover:text-white transition"
-				onmouseover={() => {
-					isOpenCustomizeOpen = true;
-					isShareOpen = false;
-				}}
-				onfocus={() => {
-					isOpenCustomizeOpen = true;
-					isShareOpen = false;
-				}}
-				onclick={() => {
-					isOpenCustomizeOpen = !isOpenCustomizeOpen;
-					isShareOpen = false;
-				}}
-				aria-label="Customize text size, font, and theme"
-				aria-expanded={isOpenCustomizeOpen}
-				title="Customize text size, font, and theme"
-			>
-				<TextSize />
-			</button>
-
-			<div
-				class={cn(
-					'absolute top-full right-0 w-[400px] p-4 bg-[#19191A] shadow-lg rounded-[8px] border border-neutral-80 opacity-0 -z-[9999999] pointer-events-none transition',
-					isOpenCustomizeOpen && 'z-[999999999] opacity-100 pointer-events-auto'
-				)}
-			>
-				<ReadingCustomize
-					open
-					onClose={() => (isOpenCustomizeOpen = false)}
-					className="relative p-0 w-full text-left"
-					hideContainer
-					hidex
-				/>
-			</div>
-		</div>
-	{:else}
-		<button
-			type="button"
-			class="block hover:text-white transition"
-			onclick={onNotSignedInReadCustomizeClick}
+			onmouseover={() => {
+				isOpenCustomizeOpen = true;
+				isShareOpen = false;
+			}}
+			onfocus={() => {
+				isOpenCustomizeOpen = true;
+				isShareOpen = false;
+			}}
+			onclick={() => {
+				isOpenCustomizeOpen = !isOpenCustomizeOpen;
+				isShareOpen = false;
+			}}
 			aria-label="Customize text size, font, and theme"
+			aria-expanded={isOpenCustomizeOpen}
 			title="Customize text size, font, and theme"
 		>
 			<TextSize />
 		</button>
-	{/if}
+
+		<div
+			class={cn(
+				'absolute top-full right-0 w-[400px] p-4 bg-[#19191A] shadow-lg rounded-[8px] border border-neutral-80 opacity-0 -z-[9999999] pointer-events-none transition',
+				isOpenCustomizeOpen && 'z-[999999999] opacity-100 pointer-events-auto'
+			)}
+		>
+			<ReadingCustomize
+				open
+				onClose={() => (isOpenCustomizeOpen = false)}
+				className="relative p-0 w-full text-left"
+				hideContainer
+				hidex
+			/>
+		</div>
+	</div>
 
 	<div class="relative">
 		<button
@@ -128,16 +83,4 @@
 			</div>
 		{/if}
 	</div>
-
-	{#if !isLoggedIn}
-		<a
-			href="/signin"
-			class="block hover:text-white transition"
-			onclick={onAccountClick}
-			aria-label="Sign in to save and personalize"
-			title="Sign in to save and personalize"
-		>
-			<PeopleCircle />
-		</a>
-	{/if}
 </div>

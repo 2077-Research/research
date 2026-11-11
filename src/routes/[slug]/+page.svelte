@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
-	import ArticleBottomBar from '$lib/components/ui/ArticleBottomBar.svelte';
 	import ArticleStickyBar from '$lib/components/ui/ArticleStickyBar.svelte';
-	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
@@ -18,21 +16,9 @@
 	import type { Article } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
-	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
-	import {
-		Bookmark,
-		FileDown,
-		Headphones,
-		Link,
-		Link2,
-		Printer,
-		Share,
-		Share2,
-		X,
-		type Icon
-	} from 'lucide-svelte';
+	import { FileDown, Link, Link2, Printer, Share, Share2, X, type Icon } from 'lucide-svelte';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import XIcon from 'lucide-svelte/icons/x';
@@ -51,8 +37,6 @@
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
 	import { onMount, tick, type Component } from 'svelte';
-	import { toast } from 'svelte-sonner';
-	import { derived } from 'svelte/store';
 	import { fly } from 'svelte/transition';
 	import type { PageData } from './$types';
 
@@ -521,179 +505,11 @@
 		}
 	}
 
-	let isLoggedIn = $state(false);
-	let showAuthBanner = $state(false);
-	let isCheckingAuth = $state(true);
-	let bookmarks = $state<string[]>([]);
-	let userId = $state<string | null>(null);
-	let userEmail = $state<string | null>(null);
 	let showShareModal = $state(false);
-
-	let loadingBookmarks = $state(true);
-
-	const handleFetchBookmarks = async () => {
-		loadingBookmarks = true;
-
-		try {
-			const {
-				data: { user }
-			} = await supabase.auth.getUser();
-
-			if (user) {
-				const { data, error } = await supabase
-					.from('UserBookmarks')
-					.select('*')
-					.eq('userId', user.id)
-					.limit(1)
-					.single();
-
-				if (data) {
-					const savedBookmarks = data.articleIds || [];
-
-					bookmarks = savedBookmarks;
-				}
-
-				if (error) {
-					if (error.code === 'PGRST116') {
-						const { error: createError } = await supabase
-							.from('UserBookmarks')
-							.insert({ userId: user.id, articleIds: [] });
-
-						if (createError) {
-							toast.error('An error occured. Please try again.');
-						}
-					} else {
-						toast.error('Error fetching bookmarks');
-					}
-				}
-			}
-		} catch (error) {
-			console.error(error);
-			toast.error('Error loading bookmarks. Please try again.');
-		} finally {
-			loadingBookmarks = false;
-		}
-	};
-
-	const handleFetchUser = async () => {
-		try {
-			const {
-				data: { user }
-			} = await supabase.auth.getUser();
-
-			if (user && user.user_metadata.email_verified) {
-				isLoggedIn = true;
-				userId = user.id;
-				userEmail = user.email || null;
-			} else {
-				isLoggedIn = false;
-				userId = null;
-				userEmail = null;
-			}
-		} catch (error) {
-			isLoggedIn = false;
-			userId = null;
-			userEmail = null;
-		} finally {
-			isCheckingAuth = false;
-		}
-	};
-
-	$effect(() => {
-		handleFetchUser();
-		handleFetchBookmarks();
-	});
-
-	let isBookmarking = $state(false);
-
-	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
-	let isBookmarked = $state(false);
-
-	$effect(() => {
-		isBookmarked = bookmarks.includes($slug || '');
-	});
-
-	const handleToogleAddToBookmarks = async () => {
-		if (isBookmarking) return;
-
-		isBookmarking = false;
-
-		if (!$slug) return;
-
-		if (!isLoggedIn && !userId) {
-			showAuthBanner = true;
-			bannerText = 'Bookmarking articles';
-			bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'save');
-
-			return;
-		}
-
-		const currentBookmarks = bookmarks;
-
-		const newBookmarks: any[] = isBookmarked
-			? bookmarks.filter((id) => id !== $slug)
-			: [...bookmarks, $slug];
-
-		bookmarks = newBookmarks;
-
-		if (isBookmarked) {
-			toast.success('Article removed from your bookmarks');
-		} else {
-			toast.success('Article added to your bookmarks');
-		}
-
-		isBookmarking = true;
-
-		try {
-			const { data, error } = await supabase
-				.from('UserBookmarks')
-				.update({ articleIds: newBookmarks })
-				.eq('userId', userId)
-				.select();
-
-			if (error) {
-				bookmarks = currentBookmarks;
-
-				toast.error(`Couldn't add article to bookmarks.`);
-			}
-		} catch (error) {
-			bookmarks = currentBookmarks;
-
-			toast.error('An error occured. Please try again.');
-		} finally {
-			isBookmarking = false;
-		}
-	};
 
 	function handleScrollToTop() {
 		document.body.scrollIntoView({ behavior: 'smooth' });
 	}
-
-	let bannerText = $state('');
-	let bannerSubTitle = $state('');
-
-	const bannerSubtitlePhrases = {
-		listen: 'listen to narrated articles',
-		summary: 'read article summaries',
-		download: 'download PDFs',
-		save: 'save articles to read later',
-		customize: 'customize your reading experience'
-	};
-
-	function joinPhrases(obj: Record<string, string>, key: keyof typeof obj): string {
-		const phrases = Object.values(obj);
-		const selectedPhrase = obj[key];
-		const sortedPhrases = selectedPhrase
-			? [selectedPhrase, ...phrases.filter((phrase) => phrase !== selectedPhrase)]
-			: phrases;
-
-		return sortedPhrases.join(', ');
-	}
-
-	// Narration is unavailable while authentication and its server-side proxy are disabled.
-	// Keep the UI values inert rather than exposing a provider credential in browser code.
-	const articleAudioUrl = '';
-	const isAudioLoading = false;
 </script>
 
 <ArticleHead article={data.article} />
@@ -705,55 +521,6 @@
 		aria-label={`Progress ${progress}%`}
 	></div>
 </div>
-
-{#if showAuthBanner}
-	<div
-		class="fixed h-screen w-screen bg-black/30 backdrop-blur-[3px] top-0 left-0 z-[9999999999] flex items-center justify-center"
-	>
-		<div
-			class="p-8 md:p-11 bg-[#131314] rounded-[8px] w-[1095px] max-w-[95%] md:max-w-full relative"
-		>
-			<div class="max-w-[595px]">
-				<div>
-					<h2 class="text-3xl md:text-[40px] md:leading-[38.8px] font-powerGroteskBold font-bold">
-						{bannerText} requires an account.
-					</h2>
-
-					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign up for free to {bannerSubTitle}, highlight key insights, and follow topics. Explore
-						crypto research without limits.
-					</p>
-				</div>
-
-				<div class="mt-[30px] flex items-center flex-wrap gap-[10.564px]">
-					<a
-						href={`/signup?callback_url=/${$slug}`}
-						class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 flex items-center justify-center hover:bg-neutral-80 transition !font-mono"
-					>
-						Create an Account
-					</a>
-
-					<a
-						href={`/signin?callback_url=/${$slug}`}
-						class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 !font-mono flex items-center justify-center hover:bg-neutral-80 transition"
-					>
-						Sign In
-					</a>
-				</div>
-			</div>
-
-			<button
-				class="absolute top-3 right-3 md:top-11 md:right-11 group"
-				onclick={() => {
-					bannerText = '';
-					showAuthBanner = false;
-				}}
-			>
-				<X class="size-6 md:size-8 text-white group-hover:text-neutral-40 transition" />
-			</button>
-		</div>
-	</div>
-{/if}
 
 <!-- Share Modal mobile -->
 {#if showShareModal}
@@ -866,26 +633,6 @@
 	</div>
 {/if}
 
-<!-- Fixed bottom bar for mobile -->
-<ArticleBottomBar
-	{isAudioLoading}
-	{articleAudioUrl}
-	{loadingBookmarks}
-	{isLoggedIn}
-	onShareClick={() => (showShareModal = true)}
-	{userEmail}
-	audioOnLoggedOut={() => {
-		bannerText = 'Listening to articles';
-		showAuthBanner = true;
-		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
-	}}
-	onNotSignedInReadCustomizeClick={() => {
-		bannerText = 'Customizing your reading experience';
-		showAuthBanner = true;
-		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
-	}}
-/>
-
 <div id="article-page">
 	<div class="md:flex gap-8 container">
 		<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
@@ -909,34 +656,6 @@
 			className
 		)}
 	>
-		{#if isLoggedIn}
-			<AudioListen {articleAudioUrl} isLoading={isAudioLoading} />
-		{:else}
-			<button
-				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
-				onclick={() => {
-					bannerText = 'Listening to articles';
-					showAuthBanner = true;
-					bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
-				}}
-			>
-				<span>Listen</span>
-				<Headphones class="size-4" />
-			</button>
-		{/if}
-
-		<button
-			class={cn(
-				'flex max-md:flex-col-reverse items-center gap-2 md:px-4 transition',
-				isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]',
-				!isBookmarked && 'hover:text-neutral-20'
-			)}
-			onclick={handleToogleAddToBookmarks}
-		>
-			<span>{isBookmarked ? 'Saved' : 'Save'}</span>
-			<Bookmark class={cn('size-4 transition', isBookmarked && 'fill-[#0CDEE9]')} />
-		</button>
-
 		<div
 			class="relative"
 			onmouseenter={handleMouseEnter}
@@ -1002,15 +721,7 @@
 
 		<button
 			class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
-			onclick={() => {
-				if (isLoggedIn) {
-					handlePdfDownload(data.article, true);
-				} else {
-					showAuthBanner = true;
-					bannerText = 'Downloading articles';
-					bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'download');
-				}
-			}}
+			onclick={() => handlePdfDownload(data.article, true)}
 		>
 			<span>Print</span>
 			<Printer class="size-4" />
@@ -1019,17 +730,7 @@
 		<button
 			class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:opacity-50"
 			disabled={!data?.article?.gpt_summary}
-			onclick={() => {
-				if (data?.article?.gpt_summary) {
-					if (isLoggedIn) {
-						toggleSummary();
-					} else {
-						showAuthBanner = true;
-						bannerText = 'Reading article summaries';
-						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'summary');
-					}
-				}
-			}}
+			onclick={() => data?.article?.gpt_summary && toggleSummary()}
 		>
 			<span>AI Summary</span>
 			<BrainCog class="size-4" />
@@ -1046,20 +747,6 @@
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
 				decoding="async"
 			/>
-
-			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-				<iframe
-					id="AudioNativeElevenLabsPlayer"
-					title="AudioNative ElevenLabs Player"
-					width="377"
-					height="98"
-					frameborder="no"
-					scrolling="no"
-					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-					style="max-height: 90px;"
-					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
-				></iframe>
-			{/if}
 		</div>
 
 		<div class="relative mt-8">
@@ -1317,24 +1004,22 @@
 							{/if}
 						</div>
 
-						{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-							<button
-								onclick={() => handlePdfDownload(article)}
-								class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
-								aria-label="Download as PDF"
-								disabled={isDownloading}
-							>
-								{#if isDownloading}
-									<div
-										class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-										aria-busy="true"
-									></div>
-								{:else}
-									<FileDown class="size-5" />
-								{/if}
-								<span class="border-b">PDF</span>
-							</button>
-						{/if}
+						<button
+							onclick={() => handlePdfDownload(article)}
+							class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
+							aria-label="Download as PDF"
+							disabled={isDownloading}
+						>
+							{#if isDownloading}
+								<div
+									class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+									aria-busy="true"
+								></div>
+							{:else}
+								<FileDown class="size-5" />
+							{/if}
+							<span class="border-b">PDF</span>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -1342,22 +1027,7 @@
 
 		<div class="relative max-md:hidden">
 			<div class="sticky top-28">
-				<ArticleStickyBar
-					{isLoggedIn}
-					onNotSignedInListenClick={() => {
-						bannerText = 'Listening to articles';
-						showAuthBanner = true;
-						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
-					}}
-					{articleAudioUrl}
-					onNotSignedInReadCustomizeClick={() => {
-						bannerText = 'Customizing your reading experience';
-						showAuthBanner = true;
-						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
-					}}
-					onAccountClick={() => {}}
-					shareOptions={shareButtons}
-				/>
+				<ArticleStickyBar shareOptions={shareButtons} />
 			</div>
 		</div>
 	</article>
@@ -1460,9 +1130,7 @@
 	{/if}
 {/snippet}
 
-{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-	{@render summaryPanel()}
-{/if}
+{@render summaryPanel()}
 
 <ScrollToTopButton className="max-md:top-40" />
 

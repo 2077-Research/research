@@ -16,7 +16,7 @@ small commit with its own verification.
 
 ## P1 — broken or unsafe functionality
 
-- [ ] Remove or disable dormant sign-in, sign-up, bookmarks, and Ethereum Navigator routes.
+- [x] Remove or disable dormant sign-in, sign-up, bookmarks, and Ethereum Navigator routes.
 - [ ] Harden or retire legacy Algolia/Ghost webhook endpoints and remove sensitive/excessive logging.
 - [ ] Replace unverified proprietary/trial fonts with licensed open-source assets.
 - [ ] Restore `pnpm check`, formatting, and ESLint to a clean baseline.
