@@ -85,7 +85,7 @@
 		"googleapis": "^144.0.0",
 		"gsap": "^3.12.7",
 		"html2canvas": "^1.4.1",
-		"isomorphic-dompurify": "^3.19.0",
+		"isomorphic-dompurify": "^2.33.0",
 		"jspdf": "^4.2.1",
 		"openai": "^7.55.0",
 		"parse5": "7.2.1",
