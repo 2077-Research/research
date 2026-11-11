@@ -1,6 +1,10 @@
 <script lang="ts">
-	import type { Contributor } from '$lib/types/article';
 	import { ArrowUpRight } from 'lucide-svelte';
+
+	interface Contributor {
+		full_name: string | null;
+		twitter_username?: string | null;
+	}
 
 	const { full_name, twitter_username }: Contributor = $props();
 </script>

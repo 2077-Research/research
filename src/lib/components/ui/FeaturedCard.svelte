@@ -19,8 +19,8 @@
 		isCategoryPage?: boolean;
 	} = $props();
 
-	const primaryCategory = getPrimaryCategory(article)?.name;
-	const formattedDate = format(article.created_at, 'dd MMM yyyy');
+	const primaryCategory = $derived(getPrimaryCategory(article)?.name);
+	const formattedDate = $derived(format(article.created_at, 'dd MMM yyyy'));
 
 	function handleCategoryClick(categoryName: string) {
 		goto(`/category/${categoryName}`);
@@ -36,8 +36,8 @@
 		return article.categories.find((category) => category.is_primary) || article.categories[0];
 	}
 
-	const authorText = getAuthorsText(article.authors || []);
-	const formattedAuthorText = authorText === 'Unknown' ? '' : authorText;
+	const authorText = $derived(getAuthorsText(article.authors || []));
+	const formattedAuthorText = $derived(authorText === 'Unknown' ? '' : authorText);
 
 	let child: HTMLDivElement | null = null;
 

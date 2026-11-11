@@ -6,12 +6,13 @@
 	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
+	import type { Article } from '$lib/types/article';
 	import { ArrowRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	const { data }: { data: PageData } = $props();
-	const articles = $derived(data.articles);
+	const articles = $derived(data.articles as Article[]);
 	const recentPosts = $derived(data.recentPosts);
 
 	const FEATURED_COUNT = 5;

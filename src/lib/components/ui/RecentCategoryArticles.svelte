@@ -4,7 +4,7 @@
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
-	interface $$Props {
+	interface Props {
 		articles: Article[];
 		articlesPerCategory?: number;
 		excludeCategory?: string;
@@ -18,9 +18,9 @@
 		customCategoryOrder = ['Layer 1', 'Layer 2', 'Interoperability', 'DeFi', 'Privacy', 'DePIN'],
 		maxCategories = 6,
 		articles: posts
-	} = $props();
+	}: Props = $props();
 
-	const categoryOrder = customCategoryOrder;
+	const categoryOrder = $derived(customCategoryOrder);
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
 
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
@@ -105,7 +105,7 @@
 									class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 									width={400}
 									height={300}
-									sizes
+									sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 								/>
 							</div>
 

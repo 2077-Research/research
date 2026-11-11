@@ -3,7 +3,8 @@
 	import Discord from './Discord.svelte';
 	import Farcaster from './Farcaster.svelte';
 
-	const { name, size = '24px' }: { name: string; size?: string } = $props();
+	type IconSize = '16px' | '20px' | '24px' | '32px';
+	const { name, size = '24px' }: { name: string; size?: IconSize } = $props();
 </script>
 
 {#if name === 'x'}
@@ -11,5 +12,5 @@
 {:else if name === 'discord'}
 	<Discord {size} />
 {:else if name === 'farcaster'}
-	<Farcaster size="28px" />
+	<Farcaster size="24px" />
 {/if}

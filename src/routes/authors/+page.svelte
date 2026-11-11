@@ -8,7 +8,7 @@
 	let activeContributor = $state('');
 
 	const { data } = $props<{ data: PageData }>();
-	const contributors = data.authors;
+	const contributors = $derived(data.authors);
 </script>
 
 <section class="bg-[#010102] pt-32 pb-16 relative overflow-hidden">

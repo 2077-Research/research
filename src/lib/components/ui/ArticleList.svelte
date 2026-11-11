@@ -6,7 +6,7 @@
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowDown } from 'lucide-svelte';
-	import { tick } from 'svelte';
+	import { tick, untrack } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
 	import FeaturedCard from './FeaturedCard.svelte';
@@ -35,8 +35,8 @@
 	} = $props();
 	let search = $state('');
 	let selectedCategory = $state('');
-	let visibleArticles = $state(articlesPerPage);
-	let previousVisibleCount = $state(articlesPerPage);
+	let visibleArticles = $state(untrack(() => articlesPerPage));
+	let previousVisibleCount = $state(untrack(() => articlesPerPage));
 	let loading = $state(false);
 
 	const filteredArticles = $derived(

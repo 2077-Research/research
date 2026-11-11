@@ -108,7 +108,7 @@
 		page.style.background = selectedThemeFind.bg_color;
 		page.style.color = selectedThemeFind.text_color;
 
-		page.classList = `${value}-theme group`;
+		page.className = `${value}-theme group`;
 
 		const elements = page.querySelectorAll('p, ol, ul, blockquote, h1, h2, h3, h4, h5, h6');
 		elements.forEach((el) => {

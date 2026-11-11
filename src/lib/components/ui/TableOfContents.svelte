@@ -46,7 +46,7 @@
 	</details>
 {/if}
 
-<style>
+<style lang="postcss">
 	aside {
 		scrollbar-width: thin;
 		scrollbar-color: var(--neutral-80) transparent;

@@ -66,16 +66,16 @@
 		}
 	};
 
-	const links = getAuthorsText(article.authors || []);
-	const formattedLinks = links === 'Unknown' ? '' : links;
+	const links = $derived(getAuthorsText(article.authors || []));
+	const formattedLinks = $derived(links === 'Unknown' ? '' : links);
 
 	function getPrimaryCategory(article: ArticleMetadata) {
 		const primary = article.categories.find((category: any) => category.is_primary);
 		return primary ?? article.categories[0];
 	}
 
-	const category = getPrimaryCategory(article);
-	const formattedDate = format(article.created_at, 'dd MMM yyyy');
+	const category = $derived(getPrimaryCategory(article));
+	const formattedDate = $derived(format(article.created_at, 'dd MMM yyyy'));
 </script>
 
 {#if viewStyle === 'LIST'}

@@ -56,10 +56,7 @@
 	let closeTimeout: ReturnType<typeof setTimeout>;
 
 	const { data } = $props<{ data: PageData }>();
-
-	if (!data.article) {
-		throw error(404, 'Article not found');
-	}
+	const article = $derived(data.article ?? error(404, 'Article not found'));
 
 	function removeTrailingPeriod(str: string): string {
 		return str.endsWith('.') ? str.slice(0, -1) : str;
@@ -68,14 +65,26 @@
 	const baseUrl = new URL($page.url.href);
 	baseUrl.hash = '';
 	const encodedUrl = encodeURIComponent(baseUrl.toString());
-	const twitterShareURL = `https://twitter.com/intent/tweet?text=${removeTrailingPeriod(data.article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
+	const twitterShareURL = $derived(
+		`https://twitter.com/intent/tweet?text=${removeTrailingPeriod(article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`
+	);
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
-	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
+	const redditShareURL = $derived(
+		`https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(article.title)}&text=${encodeURIComponent(article.summary)}`
+	);
 
-	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + '%0A%0A' + encodedUrl)}`;
-	const telegramShareURL = `https://t.me/share/msg_url?url=${encodedUrl}&text=${'%0A' + encodeURIComponent(data.article.title)}`;
-	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
-	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${'From 2077 Research' + '%0A%0A' + encodeURIComponent(data.article.title) + '%0A%0A' + data.article.summary + '%0A%0A' + encodedUrl}`;
+	const farcasterShareURL = $derived(
+		`https://warpcast.com/~/compose?text=${encodeURIComponent(article.title + '%0A%0A' + encodedUrl)}`
+	);
+	const telegramShareURL = $derived(
+		`https://t.me/share/msg_url?url=${encodedUrl}&text=${'%0A' + encodeURIComponent(article.title)}`
+	);
+	const whatsappShareUrl = $derived(
+		`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title) + '%0A%0A' + encodedUrl}`
+	);
+	const mailShareURL = $derived(
+		`mailto:?subject=${encodeURIComponent(article.title)}&body=${'From 2077 Research' + '%0A%0A' + encodeURIComponent(article.title) + '%0A%0A' + article.summary + '%0A%0A' + encodedUrl}`
+	);
 	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
@@ -85,7 +94,7 @@
 		isSvg?: boolean;
 	}
 
-	const shareOptions: ShareOption[] = [
+	const shareOptions: ShareOption[] = $derived([
 		{ name: 'Email', url: mailShareURL, icon: Mail },
 		{ name: 'X/Twitter', url: twitterShareURL, icon: TwitterIcon },
 		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
@@ -94,7 +103,7 @@
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
 		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp }
 		// { name: 'Discord', url: discordShareURL, icon: Discord }
-	];
+	]);
 
 	let progress = $state(0);
 
@@ -1133,68 +1142,3 @@
 {@render summaryPanel()}
 
 <ScrollToTopButton className="max-md:top-40" />
-
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
-
-	/* Update reading mode styles */
-	:global(.reading-mode) {
-		@apply max-w-[68ch] mx-auto relative px-8 pt-16;
-	}
-
-	:global(.reading-content) {
-		@apply text-primary w-full leading-8
-			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58
-			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9
-			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7
-			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
-			[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
-			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-cyan-400 [&_a:hover]:text-primary/60 [&_a]:transition-colors
-			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
-			[&_em]:leading-6 [&_em]:italic
-			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal;
-		@apply font-eb-garamond;
-	}
-
-	:global(#content-container div.code-toolbar) {
-		@apply relative my-8 overflow-hidden rounded-xl border border-white/10 bg-[#0d1017] shadow-2xl;
-	}
-
-	:global(#content-container div.code-toolbar::before) {
-		content: '●  ●  ●';
-		@apply block border-b border-white/10 px-4 py-2 text-[9px] tracking-[3px] text-neutral-60;
-	}
-
-	:global(#content-container div.code-toolbar > pre) {
-		@apply m-0 overflow-x-auto bg-transparent p-5 text-sm leading-6 text-gray-100;
-		scrollbar-width: thin;
-		scrollbar-color: #3f4858 transparent;
-	}
-
-	:global(#content-container div.code-toolbar > pre > code) {
-		@apply block min-w-max bg-transparent p-0;
-		text-shadow: none;
-	}
-
-	:global(#content-container div.code-toolbar .token.operator) {
-		background: transparent;
-	}
-
-	:global(#content-container div.code-toolbar > .toolbar) {
-		@apply absolute right-3 top-2 flex items-center gap-2 font-mono text-[11px] text-neutral-40 opacity-100;
-	}
-
-	:global(#content-container div.code-toolbar > .toolbar .toolbar-item span) {
-		@apply uppercase tracking-wider;
-	}
-
-	:global(#content-container .copy-to-clipboard-button) {
-		@apply rounded-md border border-white/10 bg-white/5 px-2 py-1 text-neutral-20 transition hover:bg-white/10 hover:text-white;
-	}
-
-	:global(#content-container .copy-to-clipboard-button[data-copy-state='copy-success']) {
-		@apply border-emerald-400/30 text-emerald-300;
-	}
-</style>

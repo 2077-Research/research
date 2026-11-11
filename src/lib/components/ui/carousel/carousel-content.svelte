@@ -6,7 +6,7 @@
 
 	type $$Props = HTMLAttributes<HTMLDivElement>;
 
-	let className: string | undefined | null = undefined;
+	let className: $$Props['class'] = undefined;
 	export { className as class };
 
 	const { orientation, options, plugins, onInit } = getEmblaContext('<Carousel.Content/>');

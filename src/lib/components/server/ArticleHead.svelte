@@ -8,14 +8,17 @@
 
 	const pageUrl = `${$page.url.origin}${$page.url.pathname}`;
 
-	const sanitizedTitle = article ? sanitizeTitle(article.title) : '';
-	const sanitizedSummary = article ? sanitizeTitle(article.summary) : '';
-	const sanitizedThumb = article
-		? sanitizeTitle(new URL(article.thumb_url || '/preview-image.jpg', $page.url.origin).href)
-		: '';
-	const sanitizedUrl = article ? sanitizeTitle(pageUrl) : '';
-	const sanitizedAuthors =
-		article?.authors?.map((author) => author.full_name || author.username)?.join(', ') ?? '';
+	const sanitizedTitle = $derived(article ? sanitizeTitle(article.title) : '');
+	const sanitizedSummary = $derived(article ? sanitizeTitle(article.summary) : '');
+	const sanitizedThumb = $derived(
+		article
+			? sanitizeTitle(new URL(article.thumb_url || '/preview-image.jpg', $page.url.origin).href)
+			: ''
+	);
+	const sanitizedUrl = $derived(article ? sanitizeTitle(pageUrl) : '');
+	const sanitizedAuthors = $derived(
+		article?.authors?.map((author) => author.full_name || author.username)?.join(', ') ?? ''
+	);
 </script>
 
 <svelte:head>

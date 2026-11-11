@@ -4,7 +4,7 @@
 	import { cn } from '$lib/utils/ui-components.js';
 
 	type $$Props = HTMLAttributes<HTMLDivElement>;
-	let className: string | undefined | null = undefined;
+	let className: $$Props['class'] = undefined;
 	export { className as class };
 
 	const { orientation } = getEmblaContext('<Carousel.Item/>');
