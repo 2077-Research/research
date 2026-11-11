@@ -76,8 +76,8 @@ const config: Config = {
 			},
 			fontFamily: {
 				inter: ['Inter Variable', 'sans-serif'],
-				menlo: ['Menlo Regular', 'monospace'],
-				soehne: ['Soehne', 'sans-serif'],
+				menlo: ['Ubuntu Mono', 'monospace'],
+				soehne: ['Hubot Sans', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
 				mono: 'var(--font-mono)',
 				powerGroteskBold: 'var(--font-power)',

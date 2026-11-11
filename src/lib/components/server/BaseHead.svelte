@@ -46,11 +46,4 @@
 		type="font/woff2"
 		crossorigin="anonymous"
 	/>
-	<link
-		rel="preload"
-		href="/fonts/PowerGrotesk-Variable.woff2"
-		as="font"
-		type="font/woff2"
-		crossorigin="anonymous"
-	/>
 </svelte:head>

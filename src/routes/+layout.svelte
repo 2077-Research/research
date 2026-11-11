@@ -21,35 +21,7 @@
 	<!-- Fonts preload -->
 	<link
 		rel="preload"
-		href="/fonts/Menlo-Regular.woff"
-		as="font"
-		type="font/woff"
-		crossorigin="anonymous"
-	/>
-	<link
-		rel="preload"
-		href="/fonts/Soehne-Breit-Kraftig.woff2"
-		as="font"
-		type="font/woff2"
-		crossorigin="anonymous"
-	/>
-	<link
-		rel="preload"
-		href="/fonts/ABCFavoritVariable-Trial.woff2"
-		as="font"
-		type="font/woff2"
-		crossorigin="anonymous"
-	/>
-	<link
-		rel="preload"
 		href="/fonts/Hubot-Sans.woff2"
-		as="font"
-		type="font/woff2"
-		crossorigin="anonymous"
-	/>
-	<link
-		rel="preload"
-		href="/fonts/PowerGrotesk-Variable.woff2"
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"

@@ -9,36 +9,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @font-face {
-	font-family: 'Menlo Regular';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('Menlo Regular'),
-		url('/fonts/Menlo-Regular.woff') format('woff');
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Soehne';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('Sohne'),
-		url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'ABC Favorit Variable';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('ABC Favorit Variable'),
-		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
-	font-display: swap;
-} */
-
 @font-face {
 	font-family: 'Charter';
 	font-style: normal;
@@ -70,16 +40,6 @@
 }
 
 @font-face {
-	font-family: 'PowerGrotesk';
-	font-style: normal;
-	font-weight: 300 400 500 600 700;
-	src:
-		local('PowerGrotesk'),
-		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
-	font-display: swap;
-}
-
-@font-face {
 	font-family: 'KodeMono';
 	font-style: normal;
 	font-weight: normal;
@@ -92,7 +52,7 @@
 @layer base {
 	:root {
 		--font-mono: 'Ubuntu Mono', monospace;
-		--font-power: 'PowerGrotesk';
+		--font-power: 'Hubot Sans', sans-serif;
 		--font-hubot: 'Hubot Sans', sans-serif;
 		--font-open-sans: 'OpenSans', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
