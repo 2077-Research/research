@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
@@ -10,7 +9,6 @@
 
 	interface $$Props {
 		article: ArticleMetadata;
-		onBadgeClick?: (category: string) => void;
 		hideCategory?: boolean;
 		viewStyle?: 'GRID' | 'LIST';
 		hideSummary?: boolean;
@@ -20,7 +18,6 @@
 
 	const {
 		article,
-		onBadgeClick,
 		hideCategory = false,
 		viewStyle = 'GRID',
 		hideSummary = true,
@@ -37,16 +34,13 @@
 
 		if (currentPageCategory) {
 			const matchingCategory = article.categories.find(
-				(cat: any) =>
-					cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
+				(cat) => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
 			);
 			if (matchingCategory) return matchingCategory;
 		}
 
-		return article.categories.find((cat: any) => cat.is_primary) || article.categories[0];
+		return article.categories.find((cat) => cat.is_primary) || article.categories[0];
 	});
-
-	const isOnCategoryPage = $derived($page.url.pathname.includes('/category/'));
 
 	const thumbnailUrl = $derived(
 		typeof article.thumb === 'string'
@@ -54,23 +48,11 @@
 			: article.thumb?.data?.attributes?.url || article.thumb_url || ''
 	);
 
-	const handleCategoryClick = (categoryName: string, e: MouseEvent) => {
-		if (!isOnCategoryPage) {
-			e.stopPropagation();
-			e.preventDefault();
-			if (onBadgeClick) {
-				onBadgeClick(categoryName);
-			} else {
-				goto(`/category/${formatCategorySlug(categoryName)}`);
-			}
-		}
-	};
-
 	const links = $derived(getAuthorsText(article.authors || []));
 	const formattedLinks = $derived(links === 'Unknown' ? '' : links);
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		const primary = article.categories.find((category: any) => category.is_primary);
+		const primary = article.categories.find((category) => category.is_primary);
 		return primary ?? article.categories[0];
 	}
 
@@ -144,7 +126,10 @@
 
 			{#if formattedLinks && !hideAuthors}
 				<p class="text-xs font-mono mt-2 text-neutral-40 relative">
-					By {@html formattedLinks}
+					By
+					<!-- Author names and handles are escaped by getAuthorsText. -->
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html formattedLinks}
 				</p>
 			{/if}
 		</div>
@@ -217,7 +202,10 @@
 
 		{#if formattedLinks && !hideAuthors}
 			<p class="text-xs font-mono mt-2 text-neutral-40 px-3">
-				By {@html formattedLinks}
+				By
+				<!-- Author names and handles are escaped by getAuthorsText. -->
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html formattedLinks}
 			</p>
 		{/if}
 	</div>

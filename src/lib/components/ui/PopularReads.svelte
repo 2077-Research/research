@@ -1,25 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { format } from 'date-fns';
 	import Badge from './badge/badge.svelte';
 
 	export let articles: ArticleMetadata[];
-
-	let api: CarouselAPI | undefined;
-	let current = 0;
-	let count = 0;
-
-	$: if (api) {
-		count = api.scrollSnapList()?.length ?? 0;
-		current = (api.selectedScrollSnap?.() ?? 0) + 1;
-
-		api.on?.('select', () => {
-			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
-		});
-	}
 
 	function handleCategoryClick(categoryName: string) {
 		goto(`/category/${categoryName}`);
@@ -40,7 +26,6 @@
 	<div class="bg-[#010102] flex-1 overflow-hidden pt-10 md:pt-[70px] max-md:px-5 max-md:pb-28">
 		<div class="flex flex-col w-full">
 			<Carousel.Root
-				bind:api
 				class="w-full relative"
 				opts={{
 					startIndex: 0,

@@ -1,6 +1,7 @@
 import { cache, isCacheValid } from '$lib/utils/cache';
 import { ghostAPI } from '$lib/utils/ghost';
 import { transformArticle } from '$lib/utils/transform-article';
+import type { ArticleMetadata } from '$lib/types/article';
 
 export const fetchGhostArticles = async (
 	category?: string,
@@ -15,7 +16,7 @@ export const fetchGhostArticles = async (
 	const cacheKey = `${category || 'all'}-${page || 1}-${limit}`;
 
 	if (cache.has(cacheKey)) {
-		const cached = cache.get(cacheKey);
+		const cached = cache.get<ArticleMetadata[]>(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;
 		}
@@ -65,7 +66,7 @@ export const fetchGhostArticlesFilters = async (categories: string[], page = 1, 
 	const cacheKey = `${categories.join(',') || 'all'}-${page || 1}-${limit}`;
 
 	if (cache.has(cacheKey)) {
-		const cached = cache.get(cacheKey);
+		const cached = cache.get<ArticleMetadata[]>(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;
 		}

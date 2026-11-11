@@ -7,10 +7,8 @@
 
 	let api: CarouselAPI | undefined;
 	let current = 0;
-	let count = 0;
 
 	$: if (api) {
-		count = api.scrollSnapList()?.length ?? 0;
 		current = (api.selectedScrollSnap?.() ?? 0) + 1;
 
 		api.on?.('select', () => {
@@ -330,6 +328,8 @@
 			</svg>
 
 			<h3 class="text-sm md:text-[28px] !font-powerGroteskBold !font-medium md:leading-8">
+				<!-- Testimonial copy is trusted static source content. -->
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html sanitizeTitle(testimonial.text)}
 			</h3>
 

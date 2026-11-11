@@ -2,7 +2,7 @@
 	import type { TeamMember } from '$lib/types/team';
 	import { cn } from '$lib/utils/ui-components';
 	import { Plus } from 'lucide-svelte';
-	const { full_name, picture_url, summary, role, twitter_username }: TeamMember = $props();
+	const { full_name, picture_url, summary, role }: TeamMember = $props();
 
 	let showDetails = $state(false);
 

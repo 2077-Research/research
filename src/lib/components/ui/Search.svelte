@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils/ui-components';
-	import { algoliasearch, type RankingInfo, type SnippetResult } from 'algoliasearch';
+	import { algoliasearch, type RankingInfo } from 'algoliasearch';
 	import { format } from 'date-fns';
 	import DOMPurify from 'dompurify';
 	import { Loader2, Search } from 'lucide-svelte';
@@ -96,7 +96,7 @@
 					new Set(filteredHits.map((result) => result.tags[0]?.name).filter(Boolean))
 				);
 
-				const transformedHits: any = categories.reduce(
+				const transformedHits = categories.reduce(
 					(acc, category) => {
 						acc[category] = filteredHits.filter((result) => result.tags[0]?.name === category);
 						return acc;
@@ -211,6 +211,8 @@
 																<p
 																	class="text-base font-powerGroteskBold font-bold transition [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:!not-italic group-hover:text-[#022C2F]"
 																>
+																	<!-- Sanitized immediately before rendering. -->
+																	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 																	{@html DOMPurify.sanitize(highlight.title.value)}
 																</p>
 															{:else}
@@ -226,12 +228,16 @@
 																<p
 																	class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
 																>
+																	<!-- Sanitized immediately before rendering. -->
+																	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 																	{@html DOMPurify.sanitize(snippet.html.value)}
 																</p>
 															{:else if highlight?.html?.value}
 																<p
 																	class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
 																>
+																	<!-- Sanitized immediately before rendering. -->
+																	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 																	{@html DOMPurify.sanitize(highlight.html.value)}
 																</p>
 															{:else}

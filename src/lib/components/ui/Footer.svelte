@@ -99,7 +99,7 @@
 		rel="noopener noreferrer"
 		data-sveltekit-preload-data
 	>
-		<span class="self-stretch my-auto">{@html link.text}</span>
+		<span class="self-stretch my-auto">{link.text}</span>
 		{#if link.isExternal}
 			<ArrowUpRightIcon
 				class="w-4 h-4 group-hover:translate-x-[2px] group-hover:-translate-y-[2px] transition will-change-transform"

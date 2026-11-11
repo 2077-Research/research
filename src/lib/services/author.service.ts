@@ -24,7 +24,7 @@ export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 	const cacheKey = `author-with-articles-${slug}`;
 
 	if (cache.has(cacheKey)) {
-		const cached = cache.get(cacheKey);
+		const cached = cache.get<Author>(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;
 		}
@@ -43,7 +43,7 @@ export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
 			return null;
 		}
 
-		const transformedAuthor: any = {
+		const transformedAuthor: Author = {
 			username: author.slug,
 			id: author.id,
 			full_name: author.name || '',
@@ -77,7 +77,7 @@ export const fetchAuthorsGhost = async () => {
 	const cacheKey = `contributors`;
 
 	if (cache.has(cacheKey)) {
-		const cached = cache.get(cacheKey);
+		const cached = cache.get<Author[]>(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;
 		}
@@ -90,15 +90,15 @@ export const fetchAuthorsGhost = async () => {
 			return [fikunmiContributor];
 		}
 
-		const transformedAuthors = authors.map((author: any) => ({
+		const transformedAuthors: Author[] = authors.map((author) => ({
 			username: author.slug,
 			id: author.id,
-			full_name: author.name,
-			twitter_username: author.twitter || null,
-			bio: author.bio
+			full_name: author.name || '',
+			twitter_username: author.twitter || '',
+			bio: author.bio || null
 		}));
 		const contributors = transformedAuthors.some(
-			(author: any) =>
+			(author) =>
 				author.username === fikunmiContributor.username ||
 				author.full_name?.toLowerCase() === fikunmiContributor.full_name.toLowerCase()
 		)

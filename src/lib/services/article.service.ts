@@ -1,6 +1,7 @@
 import { cache, isCacheValid } from '$lib/utils/cache';
 import { ghostAPI } from '$lib/utils/ghost';
 import { transformToFullArticle as transformToFullArticleGhost } from '$lib/server/transform-full-article';
+import type { Article } from '$lib/types/article';
 
 export const getGhostArticleBySlug = async (slug: string) => {
 	if (!slug?.trim()) {
@@ -14,7 +15,7 @@ export const getGhostArticleBySlug = async (slug: string) => {
 	const cacheKey = slug;
 
 	if (cache.has(cacheKey)) {
-		const cached = cache.get(cacheKey);
+		const cached = cache.get<Article | null>(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;
 		}

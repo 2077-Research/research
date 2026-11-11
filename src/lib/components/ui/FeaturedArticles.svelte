@@ -1,38 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import FeaturedCard from './FeaturedCard.svelte';
 
 	export let articles: ArticleMetadata[];
-
-	let api: CarouselAPI | undefined;
-	let current = 0;
-	let count = 0;
-
-	$: if (api) {
-		count = api.scrollSnapList()?.length ?? 0;
-		current = (api.selectedScrollSnap?.() ?? 0) + 1;
-
-		api.on?.('select', () => {
-			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
-		});
-	}
-
-	function handleCategoryClick(categoryName: string) {
-		goto(`/category/${categoryName}`);
-	}
-
-	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
-		if (event.detail.key === 'Enter') {
-			handleCategoryClick(categoryName);
-		}
-	}
-
-	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category) => category.is_primary);
-	}
 
 	// let readingTime = $state('');
 
@@ -50,7 +21,7 @@
 
 <h2 class="text-2xl md:text-[32px] font-powerGroteskBold mb-4 md:mb-8">Featured</h2>
 
-<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
+<Carousel.Root class="w-full relative" opts={{ loop: true }}>
 	<Carousel.Content>
 		{#each articles as article}
 			<Carousel.Item>

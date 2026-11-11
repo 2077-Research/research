@@ -30,4 +30,6 @@
 	const serializedJsonLd = $derived(serializeJsonLd(jsonLd()));
 </script>
 
-{@html `<script type="application/ld+json">${serializedJsonLd}</script>`}
+<!-- The serializer escapes script-closing sequences before this trusted JSON-LD is emitted. -->
+<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+{@html '<script type="application/ld+json">' + serializedJsonLd + '</' + 'script>'}

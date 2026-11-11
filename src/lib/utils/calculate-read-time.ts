@@ -1,5 +1,5 @@
 export function calculateReadingTime(content: string) {
-	if (!content) return '';
+	if (!content) return 0;
 
 	const wordsPerMinute = 200;
 	const textContent = content.replace(/<[^>]*>/g, '');

@@ -148,14 +148,12 @@ export async function downloadPDF(article: Article, print = false) {
 			// Handle different content types
 			if (section instanceof HTMLHeadingElement) {
 				pdf.setFont('helvetica', 'bold');
-				let fontSize, marginTop, marginBottom;
-
 				// Optimized heading styles for PDF reading
 				const style =
 					headingStyles[section.tagName as keyof typeof headingStyles] || headingStyles.default;
-				fontSize = style.fontSize;
-				marginTop = style.marginTop;
-				marginBottom = style.marginBottom;
+				const fontSize = style.fontSize;
+				const marginTop = style.marginTop;
+				const marginBottom = style.marginBottom;
 
 				// Add top margin
 				currentY += marginTop;

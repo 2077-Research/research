@@ -18,7 +18,7 @@
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
-	import { FileDown, Link, Link2, Printer, Share, Share2, X, type Icon } from 'lucide-svelte';
+	import { FileDown, Link, Link2, Printer, Share, Share2, X } from 'lucide-svelte';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import XIcon from 'lucide-svelte/icons/x';
@@ -36,20 +36,14 @@
 	import 'prismjs/components/prism-solidity';
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
-	import { onMount, tick, type Component } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { onMount, tick } from 'svelte';
 	import type { PageData } from './$types';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
 
 	let currentURL = $state('');
-	let lightboxImages = $state<string[]>([]);
-	let lightboxIndex = $state(0);
-	let showLightbox = $state(false);
 	let summaryOpen = $state(false);
-	let showFloatingButtons = $state(false);
-	let showTopbar = $state(false);
 	let copySuccess = $state(false);
 	let showShareDropdown = $state(false);
 
@@ -90,8 +84,14 @@
 	interface ShareOption {
 		name: string;
 		url: string;
-		icon: typeof Icon | Component<any>;
-		isSvg?: boolean;
+		icon:
+			| typeof Mail
+			| typeof TwitterIcon
+			| typeof Telegram
+			| typeof LinkedIn
+			| typeof Farcaster
+			| typeof Reddit
+			| typeof Whatsapp;
 	}
 
 	const shareOptions: ShareOption[] = $derived([
@@ -150,35 +150,6 @@
 		}
 	}
 
-	function extractImagesFromContent(content: string): string[] {
-		if (!window) return [];
-
-		try {
-			const parser = new DOMParser();
-			const doc = parser.parseFromString(content, 'text/html');
-			const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
-			return images;
-		} catch (error) {
-			console.error('Failed to extract images:', error);
-			return [];
-		}
-	}
-
-	function updateImageEventListeners() {
-		if (!window) return;
-
-		const container = document.getElementById('content-container');
-		if (container) {
-			const images = container.querySelectorAll('img');
-			images.forEach((img) => {
-				img.addEventListener('click', () => {
-					lightboxIndex = lightboxImages.indexOf(img.src);
-					showLightbox = true;
-				});
-			});
-		}
-	}
-
 	function toggleSummary() {
 		summaryOpen = !summaryOpen;
 		updateURL();
@@ -202,27 +173,6 @@
 		setTimeout(() => {
 			copySuccess = false;
 		}, 2000);
-	}
-
-	function handleScroll() {
-		if (!window) return;
-		const contentContainer = document.querySelector('#content-container');
-		if (!contentContainer) return;
-
-		const contentRect = contentContainer.getBoundingClientRect();
-		const titleElement = document.querySelector('h1');
-
-		if (titleElement) {
-			const titleRect = titleElement.getBoundingClientRect();
-
-			if (window.scrollY > titleRect.bottom) {
-				showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
-			} else {
-				const url = new URL(window.location.href);
-				url.hash = '';
-				window.history.replaceState({}, '', url);
-			}
-		}
 	}
 
 	type ClickOutsideOptions = {
@@ -389,33 +339,11 @@
 
 	let isReadingMode = $state(false);
 
-	function refreshToc() {
-		if (contentState === 'ready') {
-		}
-	}
-
 	onMount(() => {
 		currentURL = window.location.href;
 		contentState = 'ready';
 
-		if (data.article.content) {
-			lightboxImages = extractImagesFromContent(data.article.content);
-		}
-
 		highlightCodeBlocks();
-		updateImageEventListeners();
-
-		const observer = new MutationObserver(() => {
-			updateImageEventListeners();
-		});
-
-		const container = document.getElementById('content-container');
-		if (container) {
-			observer.observe(container, { childList: true, subtree: true });
-		}
-
-		window.addEventListener('scroll', handleScroll);
-		handleScroll();
 
 		const urlParams = new URLSearchParams(window.location.search);
 		summaryOpen = urlParams.get('summary') === 'true';
@@ -444,15 +372,7 @@
 
 		window.addEventListener('beforeprint', handleBeforePrint);
 
-		$effect(() => {
-			if (contentState === 'ready') {
-				refreshToc();
-			}
-		});
-
 		return () => {
-			observer.disconnect();
-			window.removeEventListener('scroll', handleScroll);
 			document.removeEventListener('mousedown', handleOutsideClick);
 			document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
@@ -487,11 +407,6 @@
 		}
 	});
 
-	function toggleReadingMode() {
-		isReadingMode = !isReadingMode;
-		localStorage.setItem('readingMode', isReadingMode.toString());
-	}
-
 	$effect(() => {
 		if (isReadingMode !== undefined) {
 			setTimeout(processHeaderIds, 0);
@@ -515,10 +430,6 @@
 	}
 
 	let showShareModal = $state(false);
-
-	function handleScrollToTop() {
-		document.body.scrollIntoView({ behavior: 'smooth' });
-	}
 </script>
 
 <ArticleHead article={data.article} />
@@ -590,6 +501,7 @@
 					<p class="font-mono font-normal text-neutral-20 -tracking-[0.8px] mb-2">Share to:</p>
 					<div class="flex items-center gap-5 flex-wrap [&_svg]:!size-[22.505px]">
 						{#each shareOptions as option}
+							{@const IconComponent = option.icon}
 							<a
 								href={option.url}
 								target="_blank"
@@ -598,12 +510,7 @@
 								data-sveltekit-preload-data
 								class="text-[#E6E6E6] hover:text-neutral-40 transition"
 							>
-								{#if option.isSvg}
-									{@html option.icon}
-								{:else}
-									{@const IconComponent = option.icon}
-									<IconComponent />
-								{/if}
+								<IconComponent />
 							</a>
 						{/each}
 					</div>
@@ -658,7 +565,7 @@
 	</div>
 </div>
 
-{#snippet topBar(className?: string, hideShare = false)}
+{#snippet topBar(className?: string)}
 	<div
 		class={cn(
 			'text-[13px] text-neutral-40 md:divide-x-[1px] divide-[#262626] border-[#262626] flex flex-wrap items-center max-md:justify-between',
@@ -692,6 +599,7 @@
 						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0 font-mono"
 				>
 					{#each shareOptions as option}
+						{@const IconComponent = option.icon}
 						<a
 							href={option.url}
 							target="_blank"
@@ -700,12 +608,7 @@
 							class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2 [&_svg]:!size-5"
 							data-sveltekit-preload-data
 						>
-							{#if option.isSvg}
-								{@html option.icon}
-							{:else}
-								{@const IconComponent = option.icon}
-								<IconComponent class="" />
-							{/if}
+							<IconComponent />
 							<span class="text-sm">{option.name}</span>
 						</a>
 					{/each}
@@ -820,7 +723,7 @@
 					</div>
 				</div>
 
-				{@render topBar('mt-5 py-5 border-y', showTopbar)}
+				{@render topBar('mt-5 py-5 border-y')}
 			</header>
 		</div>
 	</div>
@@ -927,6 +830,8 @@
 					</div>
 				{/if}
 
+				<!-- Article HTML is sanitized server-side by prepareArticleContent. -->
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html article.content}
 			</div>
 
@@ -980,6 +885,7 @@
 						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
 								>
 									{#each shareOptions as option}
+										{@const IconComponent = option.icon}
 										<a
 											href={option.url}
 											target="_blank"
@@ -988,12 +894,7 @@
 											class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
 											data-sveltekit-preload-data
 										>
-											{#if option.isSvg}
-												{@html option.icon}
-											{:else}
-												{@const IconComponent = option.icon}
-												<IconComponent class="w-5 h-5" />
-											{/if}
+											<IconComponent />
 											<span class="text-sm">{option.name}</span>
 										</a>
 									{/each}
@@ -1044,6 +945,7 @@
 
 {#snippet shareButtons()}
 	{#each shareOptions as option}
+		{@const IconComponent = option.icon}
 		<a
 			href={option.url}
 			target="_blank"
@@ -1052,12 +954,7 @@
 			class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2 [&_svg]:!size-5"
 			data-sveltekit-preload-data
 		>
-			{#if option.isSvg}
-				{@html option.icon}
-			{:else}
-				{@const IconComponent = option.icon}
-				<IconComponent class="" />
-			{/if}
+			<IconComponent />
 			<span class="text-sm">{option.name}</span>
 		</a>
 	{/each}
@@ -1076,16 +973,6 @@
 			<span class="text-sm">Copy link</span>
 		{/if}
 	</button>
-{/snippet}
-
-{#snippet floatingButtons()}
-	{#if showFloatingButtons || isReadingMode}
-		<div
-			class="max-md:hidden fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300 z-[9999]"
-			in:fly={{ y: 20, duration: 300, opacity: 0 }}
-			out:fly={{ y: 20, duration: 300, opacity: 0 }}
-		></div>
-	{/if}
 {/snippet}
 
 {#snippet summaryPanel()}
@@ -1132,6 +1019,8 @@
 					[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
 					[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal"
 				>
+					<!-- Summary HTML is sanitized server-side by sanitizeArticleHtml. -->
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html data.article.gpt_summary}
 				</div>
 			</div>

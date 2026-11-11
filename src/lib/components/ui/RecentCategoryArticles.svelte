@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { Article, ArticleMetadata } from '$lib/types/article';
+	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
 	interface Props {
-		articles: Article[];
+		articles: ArticleMetadata[];
 		articlesPerCategory?: number;
 		excludeCategory?: string;
 		customCategoryOrder?: string[];
@@ -119,7 +119,10 @@
 						</div>
 
 						<p class="text-xs font-mono text-neutral-40">
-							By {@html getAuthorsText(article.authors)}
+							By
+							<!-- Author names and handles are escaped by getAuthorsText. -->
+							<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+							{@html getAuthorsText(article.authors)}
 						</p>
 					{/each}
 				</div>

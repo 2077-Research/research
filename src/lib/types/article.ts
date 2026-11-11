@@ -71,7 +71,13 @@ export const ArticleMetadataSchema = z.object({
 
 export const ArticleMetadataArraySchema = z.array(ArticleMetadataSchema);
 
-const TableOfContentsItemSchema: z.ZodType<any> = z.lazy(() =>
+export type TableOfContentsItem = {
+	title: string;
+	id: string;
+	children: TableOfContentsItem[];
+};
+
+const TableOfContentsItemSchema: z.ZodType<TableOfContentsItem> = z.lazy(() =>
 	z.object({
 		id: z.string(),
 		title: z.string(),
@@ -80,11 +86,6 @@ const TableOfContentsItemSchema: z.ZodType<any> = z.lazy(() =>
 );
 
 export const TableOfContentsSchema = z.array(TableOfContentsItemSchema);
-export type TableOfContentsItem = {
-	title: string;
-	id: string;
-	children: TableOfContentsItem[];
-};
 export type TableOfContents = z.infer<typeof TableOfContentsSchema>;
 
 export const FullArticleSchema = ArticleMetadataSchema.extend({
@@ -125,13 +126,5 @@ export interface ArticleMetadata {
 export interface Article extends ArticleMetadata {
 	content: string;
 	gpt_summary?: string;
-	table_of_contents: Array<{
-		id: string;
-		title: string;
-		children: Array<{
-			id: string;
-			title: string;
-			children: any[];
-		}>;
-	}>;
+	table_of_contents: TableOfContentsItem[];
 }

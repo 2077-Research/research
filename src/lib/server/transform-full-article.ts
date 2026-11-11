@@ -29,12 +29,12 @@ export function transformToFullArticle(articleData: PostOrPage) {
 				}
 			},
 			summary: articleData.excerpt || '',
-			categories: categories.map((cat: any) => ({
+			categories: categories.map((cat) => ({
 				name: cat.name || '',
-				is_primary: cat?.is_primary || false
+				is_primary: categories[0]?.id === cat.id
 			})),
-			tags: tags.map((tag: any) => ({ name: tag.name || '' })),
-			authors: (articleData.authors || []).map((author: any) => ({
+			tags: tags.map((tag) => ({ name: tag.name || '' })),
+			authors: (articleData.authors || []).map((author) => ({
 				username: author.slug || '',
 				id: author.id || '',
 				full_name: author.name || '',
@@ -42,7 +42,7 @@ export function transformToFullArticle(articleData: PostOrPage) {
 			})),
 			created_at: articleData.published_at || new Date().toISOString(),
 			updated_at: articleData.updated_at || new Date().toISOString(),
-			min_read: articleData.reading_time || calculateReadingTime(articleData.html || ''),
+			min_read: Number(articleData.reading_time) || calculateReadingTime(articleData.html || ''),
 			views: 0,
 			isSponsored: false,
 			sponsorColor: '',

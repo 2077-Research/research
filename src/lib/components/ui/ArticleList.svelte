@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
 
-	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowDown } from 'lucide-svelte';
 	import { tick, untrack } from 'svelte';
@@ -12,13 +10,10 @@
 	import FeaturedCard from './FeaturedCard.svelte';
 	import Grid from './icons/Grid.svelte';
 	import List from './icons/List.svelte';
-	let newArticleRef: HTMLElement | null = null;
-
 	const ARTICLES_PER_PAGE = 9;
 
 	const {
 		articles,
-		articleCategories = [],
 		articlesPerPage = ARTICLES_PER_PAGE,
 		displayLoadMore = true,
 		title = 'Featured Research',
@@ -26,7 +21,6 @@
 		hideFeatured = false
 	}: {
 		articles: ArticleMetadata[];
-		articleCategories?: string[];
 		articlesPerPage?: number;
 		displayLoadMore?: boolean;
 		title?: string;
@@ -36,14 +30,13 @@
 	let search = $state('');
 	let selectedCategory = $state('');
 	let visibleArticles = $state(untrack(() => articlesPerPage));
-	let previousVisibleCount = $state(untrack(() => articlesPerPage));
 	let loading = $state(false);
 
 	const filteredArticles = $derived(
 		articles
 			.filter((article) => {
 				const categoryMatch = selectedCategory
-					? article.categories.some((category: any) => category.name === selectedCategory)
+					? article.categories.some((category) => category.name === selectedCategory)
 					: true;
 				return categoryMatch;
 			})
@@ -60,7 +53,6 @@
 		await tick();
 
 		try {
-			previousVisibleCount = visibleArticles;
 			visibleArticles += articlesPerPage;
 		} finally {
 			loading = false;
@@ -72,33 +64,9 @@
 	});
 
 	$effect(() => {
-		if (filteredArticles.length > previousVisibleCount) {
-			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
-		}
-	});
-
-	$effect(() => {
 		const highlightParam = $page.url.searchParams.get('highlight');
 		selectedCategory = highlightParam || '';
 	});
-
-	function handleCategoryClick(category: string) {
-		goto(`/category/${formatCategorySlug(category)}`);
-	}
-
-	function scrollToLatestResearch() {
-		const element = document.getElementById('latest-research');
-		if (element) {
-			const elementHeight = element.getBoundingClientRect().height;
-			const elementPosition = element.getBoundingClientRect().top;
-			const offsetPosition = elementPosition + window.pageYOffset - (elementHeight + 40);
-
-			window.scrollTo({
-				top: offsetPosition,
-				behavior: 'smooth'
-			});
-		}
-	}
 
 	const firstArticle = $derived(filteredArticles[0]);
 
@@ -184,7 +152,6 @@
 					<ArticleCard
 						{viewStyle}
 						{article}
-						onBadgeClick={(category) => handleCategoryClick(category)}
 						hideInfo={false}
 						hideSummary={false}
 						hideCategory={disableCategory}

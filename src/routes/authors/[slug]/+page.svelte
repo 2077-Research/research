@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Grid from '$lib/components/ui/icons/Grid.svelte';
@@ -19,30 +18,12 @@
 
 	const articles = $derived(data.author.articles || []);
 
-	function handleCategoryClick(category: string) {
-		goto(`/category/${formatCategorySlug(category)}`);
-	}
-
-	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
-		if (event.detail.key === 'Enter') {
-			handleCategoryClick(categoryName);
-		}
-	}
-
 	function getPrimaryCategory(article: ArticleMetadata) {
-		const primary = article.categories.find((category: any) => category.is_primary);
+		const primary = article.categories.find((category) => category.is_primary);
 		return primary ?? article.categories[0];
 	}
 
 	let viewStyle = $state<'GRID' | 'LIST'>('GRID');
-
-	const handleToggleViewStyle = () => {
-		if (viewStyle === 'GRID') {
-			viewStyle = 'LIST';
-		} else {
-			viewStyle = 'GRID';
-		}
-	};
 </script>
 
 <BaseHead />

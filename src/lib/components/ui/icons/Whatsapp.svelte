@@ -1,5 +1,5 @@
 <script lang="ts">
-	const { size = '20px' }: { size: '16px' | '20px' | '24px' | '32px' } = $props();
+	const { size = '20px' }: { size?: '16px' | '20px' | '24px' | '32px' } = $props();
 </script>
 
 <svg viewBox="0 0 48 48" width={size} height={size} fill="currentColor" aria-label="WhatsApp"

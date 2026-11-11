@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -21,16 +20,6 @@
 
 	const primaryCategory = $derived(getPrimaryCategory(article)?.name);
 	const formattedDate = $derived(format(article.created_at, 'dd MMM yyyy'));
-
-	function handleCategoryClick(categoryName: string) {
-		goto(`/category/${categoryName}`);
-	}
-
-	function handleKeydown(event: KeyboardEvent, categoryName: string) {
-		if (event.key === 'Enter') {
-			handleCategoryClick(categoryName);
-		}
-	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
 		return article.categories.find((category) => category.is_primary) || article.categories[0];
@@ -146,7 +135,10 @@
 					<hr class="my-4 border-[#262626]" />
 
 					<p class="text-sm font-mono">
-						By {@html formattedAuthorText}
+						By
+						<!-- Author names and handles are escaped by getAuthorsText. -->
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+						{@html formattedAuthorText}
 					</p>
 				{/if}
 			</div>

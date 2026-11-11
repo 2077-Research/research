@@ -19,7 +19,7 @@ small commit with its own verification.
 - [x] Remove or disable dormant sign-in, sign-up, bookmarks, and Ethereum Navigator routes.
 - [x] Harden or retire legacy Algolia/Ghost webhook endpoints and remove sensitive/excessive logging.
 - [x] Replace unverified proprietary/trial fonts with licensed open-source assets.
-- [ ] Restore `pnpm check`, formatting, and ESLint to a clean baseline.
+- [x] Restore `pnpm check`, formatting, and ESLint to a clean baseline.
 - [ ] Add meaningful unit and browser smoke tests for critical public routes and article rendering.
 - [ ] Add CI and automated dependency-update configuration.
 

@@ -27,6 +27,25 @@ export default tseslint.config(
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/']
+		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^\\$\\$'
+				}
+			]
+		}
+	},
+	{
+		ignores: [
+			'build/',
+			'.svelte-kit/',
+			'.vercel/',
+			'dist/',
+			'migrations/meta/',
+			'static/prism.js',
+			'static/themes/'
+		]
 	}
 );

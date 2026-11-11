@@ -2,20 +2,6 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { cn } from '$lib/utils/ui-components';
 	import { AnimateSharedLayout } from 'svelte-motion';
-	import type { CarouselAPI } from './carousel/context';
-
-	let api: CarouselAPI | undefined;
-	let current = 0;
-	let count = 0;
-
-	$: if (api) {
-		count = api.scrollSnapList()?.length ?? 0;
-		current = (api.selectedScrollSnap?.() ?? 0) + 1;
-
-		api.on?.('select', () => {
-			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
-		});
-	}
 
 	interface Testimonial {
 		text: string;
@@ -262,15 +248,14 @@
 			<div class="md:flex-1 max-md:w-full overflow-hidden">
 				<div class="relative">
 					<Carousel.Root
-						bind:api
 						class="max-w-[629px] w-full relative mx-auto"
 						opts={{ loop: true, align: 'center', startIndex: 15 }}
 					>
 						<AnimateSharedLayout>
 							<Carousel.Content>
-								{#each testimonials as testimonial, i}
+								{#each testimonials as testimonial}
 									<Carousel.Item class="md:p-8">
-										{@render card(testimonial, i)}
+										{@render card(testimonial)}
 									</Carousel.Item>
 								{/each}
 							</Carousel.Content>
@@ -292,7 +277,7 @@
 	</div>
 </div>
 
-{#snippet card(testimonial: Testimonial, i: number)}
+{#snippet card(testimonial: Testimonial)}
 	<div
 		class={cn(
 			'p-6 md:px-8 md:py-6 w-full bg-[#0C0C0C] rounded-[8px] border border-[#262626] relative transition'
@@ -310,7 +295,10 @@
 		<div class="flex flex-col gap-6 md:gap-8 mt-8">
 			<span
 				class="text-base md:text-[24px] font-powerGroteskBold font-bold md:leading-6 md:[&_p]:!leading-7"
-				>{@html testimonial.text}</span
+			>
+				<!-- Testimonial copy is trusted static source content. -->
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html testimonial.text}</span
 			>
 
 			<div class="flex gap-2">

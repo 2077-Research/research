@@ -33,7 +33,7 @@ export function toTitleCase(str: string): string {
 
 			const romanMatch = word.match(romanNumeralPattern);
 			if (romanMatch) {
-				const [fullMatch, prefix, romanPart] = romanMatch;
+				const [, , romanPart] = romanMatch;
 				return word.replace(romanPart, romanPart.toUpperCase());
 			}
 
