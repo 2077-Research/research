@@ -256,7 +256,6 @@
 					>
 						What the people <br /> are saying about us
 					</h3>
-
 				</div>
 			</div>
 

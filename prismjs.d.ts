@@ -1,3 +1,3 @@
 declare module 'prismjs' {
-    export function highlightAll(): void;
+	export function highlightAll(): void;
 }

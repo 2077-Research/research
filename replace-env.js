@@ -8,7 +8,7 @@ const configPath = path.join(process.cwd(), 'config.json');
 const configContent = fs.readFileSync(configPath, 'utf8');
 
 const updatedConfig = configContent.replace(/\$(\w+)/g, (_, key) => {
-  return process.env[key] || '';
+	return process.env[key] || '';
 });
 
 fs.writeFileSync(configPath, updatedConfig, 'utf8');

@@ -2,3 +2,12 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Generated database snapshots
+migrations/meta/
+
+# Vendored Prism bundles and themes
+static/prism.js
+static/prism.css
+static/themes/
+src/routes/*/prism-one-dark.css
