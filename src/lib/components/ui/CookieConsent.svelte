@@ -60,10 +60,19 @@
 
 {#if consent === null || settingsOpen}
 	<section
-		class="fixed inset-x-4 bottom-4 z-[999999999] mx-auto max-w-3xl rounded-xl border border-neutral-700 bg-[#111113] p-5 shadow-2xl md:flex md:items-end md:justify-between md:gap-8"
+		class="fixed inset-x-4 bottom-4 z-[999999999] mx-auto max-w-3xl rounded-xl border border-neutral-700 bg-[#111113] p-5 pr-12 shadow-2xl md:flex md:items-end md:justify-between md:gap-8"
 		aria-labelledby="cookie-consent-title"
 		aria-live="polite"
 	>
+		<button
+			type="button"
+			class="absolute right-3 top-3 flex size-8 items-center justify-center rounded-md text-xl text-neutral-20 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+			aria-label="Close privacy choices and reject analytics"
+			title="Close"
+			onclick={() => saveConsent('rejected')}
+		>
+			<span aria-hidden="true">×</span>
+		</button>
 		<div>
 			<h2 id="cookie-consent-title" class="font-ibm text-lg font-semibold">Your privacy choices</h2>
 			<p class="mt-2 max-w-xl text-sm leading-6 text-neutral-20">
